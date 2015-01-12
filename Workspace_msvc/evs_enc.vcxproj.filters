@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="evs_enc_c">
+      <UniqueIdentifier>{4d873cf4-2fda-4b95-974e-accce47f56ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="evs_enc_h">
+      <UniqueIdentifier>{ce55bca7-7b77-4d65-92d5-a67c6d1759d3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib_enc\ACcontextMapping_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\acelp_core_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\acelp_core_switch_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\acelp_enc_util.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\amr_wb_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\analy_lp_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\analy_sp.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\ari_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\ari_hm_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\arith_coder_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\avq_cod_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\bass_psfilter_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\bw_detect_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\cng_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\cod2t32_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\cod4t64_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\cod_ace.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\cod_tcx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\cod_uv.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\comvad_decision.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\cor_shif_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\core_enc_2div.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\core_enc_init.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\core_enc_ol.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\core_enc_reconf.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\core_enc_switch.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\core_enc_updt.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\core_switching_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\corr_xh_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\decision_matrix_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\detect_transient_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\diffcod_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\dtx_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_acelp.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_acelp_tcx_main.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_acelpx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_amr_wb_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_gain.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_gen_voic_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_gen_voic_rf_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_higher_acelp_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_nelp_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_pit_exc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_ppp_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_prm.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_tran_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\enc_uv_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\energy.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\eval_pit_contr_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\evs_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\ext_sig_ana.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\fd_cng_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\FEC_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\find_tar_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\find_tilt_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\find_uv.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\find_wsp_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\frame_spec_dif_cor_rate.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\gain_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\gaus_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\gp_clip_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\gs_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\guided_plc_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\hf_cod_amrwb_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\hq_classifier_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\hq_core_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\hq_env_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\hq_hr_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\hq_lr_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\hvq_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\igf_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\igf_scf_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\init_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\inov_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\io_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\isf_enc_amr_wb_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\lead_indexing_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\long_enr.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\lp_exc_e_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\lsf_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\lsf_msvq_ma_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\ltd_stable.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\mdct_classifier_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\mdct_selector.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\mslvq_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\multi_harm_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\nelp_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\nois_est_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\noise_adjust_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\normalizecoefs_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\peak_vq_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\pit_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\pitch_ol.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\pitch_ol2_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\plc_enc_ext.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\ppp_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\pre_proc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\pvq_core_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\pvq_encode_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\q_gain2p.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\qlpc_avq.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\qlpc_stoch.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\range_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\re8_cod_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\reordernorm_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\rom_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\rst_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\scale_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\set_impulse_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\setmodeindex.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\sig_clas.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\SNR_calc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\spec_center.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\spec_flatness.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\speech_music_classif_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\stat_noise_uv_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\subband_fft.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\swb_bwe_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\swb_bwe_enc_hr_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\swb_bwe_enc_lr_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\swb_pre_proc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\swb_tbe_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\tcq_core_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\tcx_ltp_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\tcx_utils_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\tfa_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\tns_base_enc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\transient_detection.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\transition_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\update_decision.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\updt_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\updt_tar_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\vad_basop.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\vad_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\vad_param_updt_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\vad_proc.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\vbr_average_rate_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\vlpc_1st_cod.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\vlpc_2st_cod.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\voiced_enc_fx.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\waveadjust_fec_cod.c">
+      <Filter>evs_enc_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_enc\encoder.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib_enc\rom_enc_fx.h">
+      <Filter>evs_enc_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib_enc\stat_enc_fx.h">
+      <Filter>evs_enc_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib_enc\stat_enc_types.h">
+      <Filter>evs_enc_h</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

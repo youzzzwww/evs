@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="evs_dec_c">
+      <UniqueIdentifier>{482fa3f6-c354-43e5-965f-99f831aab490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="evs_dec_h">
+      <UniqueIdentifier>{adf86451-16df-4fcc-8fc3-71e537f978ca}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib_dec\ACcontextMapping_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\acelp_core_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\acelp_core_switch_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\amr_wb_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\ari_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\ari_hm_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\arith_coder_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\avq_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\basop_util_jbm.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\bass_psfilter_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\cng_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\core_dec_init.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\core_dec_reconf.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\core_dec_switch.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\core_switching_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\d_gain2p.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec2t32_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec4t64_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_ace.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_acelp.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_acelp_tcx_main.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_amr_wb_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_gen_voic_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_higher_acelp_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_LPD.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_nelp_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_pit_exc_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_post.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_ppp_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_prm.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_tcx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_tran_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dec_uv.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\decision_matrix_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dlpc_avq.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\dlpc_stoch.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\er_dec_acelp.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\er_dec_tcx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\er_scale_syn.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\er_sync_exc.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\er_util.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\evs_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\EvsRXlib.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\fd_cng_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\FEC_adapt_codebook_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\FEC_clas_estim_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\FEC_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\FEC_HQ_core_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\FEC_HQ_phase_ecu_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\FEC_lsf_estim_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\FEC_pitch_estim_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\FEC_scale_syn_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\gain_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\gaus_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\gs_dec_amr_wb_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\gs_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\hdecnrm_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\hf_synth_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\hq_classifier_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\hq_conf_fec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\hq_core_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\hq_env_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\hq_hr_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\hq_lr_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\igf_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\igf_scf_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\init_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\inov_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\io_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\jbm_jb4_circularbuffer.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\jbm_jb4_inputbuffer.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\jbm_jb4_jmf.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\jbm_jb4sb.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\jbm_pcmdsp_apa.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\jbm_pcmdsp_fifo.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\jbm_pcmdsp_similarityestimation.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\jbm_pcmdsp_window.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\LD_music_post_filter_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\lead_deindexing_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\lp_exc_d_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\lsf_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\lsf_msvq_ma_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\nelp_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\peak_vq_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\pit_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\pitch_extr.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\post_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\ppp_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\pvq_core_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\pvq_decode_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\range_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\re8_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\rom_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\rst_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\stat_noise_uv_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\swb_bwe_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\swb_bwe_dec_hr_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\swb_bwe_dec_lr_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\swb_tbe_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\syn_outp_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\tcq_core_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\tcx_utils_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\tns_base_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\TonalComponentDetection.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\tonalMDCTconcealment.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\transition_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\updt_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\vlpc_1st_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\vlpc_2st_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\voiced_dec_fx.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\voip_client.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\waveadjust_fec_dec.c">
+      <Filter>evs_dec_c</Filter>
+    </ClCompile>
+    <ClCompile Include="..\lib_dec\decoder.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib_dec\rom_dec_fx.h">
+      <Filter>evs_dec_h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\lib_dec\stat_dec_fx.h">
+      <Filter>evs_dec_h</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

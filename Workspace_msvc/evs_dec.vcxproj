@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E822DDAF-0F5F-4CD0-A694-38AE69DE74D3}</ProjectGuid>
+    <RootNamespace>evs_dec</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug_Dec\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug_Dec\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release_Dec\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release_Dec\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep>
+      <Message>
+      </Message>
+    </CustomBuildStep>
+    <Midl>
+      <TypeLibraryName>.\Debug/vbr_dec.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\lib_enc;..\lib_dec;..\lib_com;..\basic_op;..\basic_math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <ProgramDataBaseFileName>$(IntDir)evs_dec.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c0c</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <OutputFile>..\EVS_dec.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ManifestFile>
+      </ManifestFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Debug/evs_dec.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <TypeLibraryName>.\Release/vbr_dec.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <AdditionalIncludeDirectories>..\lib_enc;..\lib_dec;..\lib_com;..\basic_op;..\basic_math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)evs_dec.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c0c</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\EVS_dec.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ManifestFile>
+      </ManifestFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Release/vbr_dec.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\lib_dec\ACcontextMapping_dec.c" />
+    <ClCompile Include="..\lib_dec\acelp_core_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\acelp_core_switch_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\amr_wb_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\ari_dec.c" />
+    <ClCompile Include="..\lib_dec\ari_hm_dec.c" />
+    <ClCompile Include="..\lib_dec\arith_coder_dec.c" />
+    <ClCompile Include="..\lib_dec\avq_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\basop_util_jbm.c" />
+    <ClCompile Include="..\lib_dec\bass_psfilter_fx.c" />
+    <ClCompile Include="..\lib_dec\cng_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\core_dec_init.c" />
+    <ClCompile Include="..\lib_dec\core_dec_reconf.c" />
+    <ClCompile Include="..\lib_dec\core_dec_switch.c" />
+    <ClCompile Include="..\lib_dec\core_switching_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\d_gain2p.c" />
+    <ClCompile Include="..\lib_dec\dec2t32_fx.c" />
+    <ClCompile Include="..\lib_dec\dec4t64_fx.c" />
+    <ClCompile Include="..\lib_dec\dec_ace.c" />
+    <ClCompile Include="..\lib_dec\dec_acelp.c" />
+    <ClCompile Include="..\lib_dec\dec_acelp_tcx_main.c" />
+    <ClCompile Include="..\lib_dec\dec_amr_wb_fx.c" />
+    <ClCompile Include="..\lib_dec\dec_gen_voic_fx.c" />
+    <ClCompile Include="..\lib_dec\dec_higher_acelp_fx.c" />
+    <ClCompile Include="..\lib_dec\dec_LPD.c" />
+    <ClCompile Include="..\lib_dec\dec_nelp_fx.c" />
+    <ClCompile Include="..\lib_dec\dec_pit_exc_fx.c" />
+    <ClCompile Include="..\lib_dec\dec_post.c" />
+    <ClCompile Include="..\lib_dec\dec_ppp_fx.c" />
+    <ClCompile Include="..\lib_dec\dec_prm.c" />
+    <ClCompile Include="..\lib_dec\dec_tcx.c" />
+    <ClCompile Include="..\lib_dec\dec_tran_fx.c" />
+    <ClCompile Include="..\lib_dec\dec_uv.c" />
+    <ClCompile Include="..\lib_dec\decision_matrix_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\dlpc_avq.c" />
+    <ClCompile Include="..\lib_dec\dlpc_stoch.c" />
+    <ClCompile Include="..\lib_dec\er_dec_acelp.c" />
+    <ClCompile Include="..\lib_dec\er_dec_tcx.c" />
+    <ClCompile Include="..\lib_dec\er_scale_syn.c" />
+    <ClCompile Include="..\lib_dec\er_sync_exc.c" />
+    <ClCompile Include="..\lib_dec\er_util.c" />
+    <ClCompile Include="..\lib_dec\evs_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\EvsRXlib.c" />
+    <ClCompile Include="..\lib_dec\fd_cng_dec.c" />
+    <ClCompile Include="..\lib_dec\FEC_adapt_codebook_fx.c" />
+    <ClCompile Include="..\lib_dec\FEC_clas_estim_fx.c" />
+    <ClCompile Include="..\lib_dec\FEC_fx.c" />
+    <ClCompile Include="..\lib_dec\FEC_HQ_core_fx.c" />
+    <ClCompile Include="..\lib_dec\FEC_HQ_phase_ecu_fx.c" />
+    <ClCompile Include="..\lib_dec\FEC_lsf_estim_fx.c" />
+    <ClCompile Include="..\lib_dec\FEC_pitch_estim_fx.c" />
+    <ClCompile Include="..\lib_dec\FEC_scale_syn_fx.c" />
+    <ClCompile Include="..\lib_dec\gain_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\gaus_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\gs_dec_amr_wb_fx.c" />
+    <ClCompile Include="..\lib_dec\gs_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\hdecnrm_fx.c" />
+    <ClCompile Include="..\lib_dec\hf_synth_fx.c" />
+    <ClCompile Include="..\lib_dec\hq_classifier_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\hq_conf_fec_fx.c" />
+    <ClCompile Include="..\lib_dec\hq_core_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\hq_env_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\hq_hr_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\hq_lr_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\igf_dec.c" />
+    <ClCompile Include="..\lib_dec\igf_scf_dec.c" />
+    <ClCompile Include="..\lib_dec\init_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\inov_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\io_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\jbm_jb4_circularbuffer.c" />
+    <ClCompile Include="..\lib_dec\jbm_jb4_inputbuffer.c" />
+    <ClCompile Include="..\lib_dec\jbm_jb4_jmf.c" />
+    <ClCompile Include="..\lib_dec\jbm_jb4sb.c" />
+    <ClCompile Include="..\lib_dec\jbm_pcmdsp_apa.c" />
+    <ClCompile Include="..\lib_dec\jbm_pcmdsp_fifo.c" />
+    <ClCompile Include="..\lib_dec\jbm_pcmdsp_similarityestimation.c" />
+    <ClCompile Include="..\lib_dec\jbm_pcmdsp_window.c" />
+    <ClCompile Include="..\lib_dec\LD_music_post_filter_fx.c" />
+    <ClCompile Include="..\lib_dec\lead_deindexing_fx.c" />
+    <ClCompile Include="..\lib_dec\lp_exc_d_fx.c" />
+    <ClCompile Include="..\lib_dec\lsf_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\lsf_msvq_ma_dec.c" />
+    <ClCompile Include="..\lib_dec\nelp_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\peak_vq_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\pit_dec.c" />
+    <ClCompile Include="..\lib_dec\pitch_extr.c" />
+    <ClCompile Include="..\lib_dec\post_dec.c" />
+    <ClCompile Include="..\lib_dec\ppp_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\pvq_core_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\pvq_decode_fx.c" />
+    <ClCompile Include="..\lib_dec\range_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\re8_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\rom_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\rst_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\stat_noise_uv_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\swb_bwe_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\swb_bwe_dec_hr_fx.c" />
+    <ClCompile Include="..\lib_dec\swb_bwe_dec_lr_fx.c" />
+    <ClCompile Include="..\lib_dec\swb_tbe_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\syn_outp_fx.c" />
+    <ClCompile Include="..\lib_dec\tcq_core_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\tcx_utils_dec.c" />
+    <ClCompile Include="..\lib_dec\tns_base_dec.c" />
+    <ClCompile Include="..\lib_dec\TonalComponentDetection.c" />
+    <ClCompile Include="..\lib_dec\tonalMDCTconcealment.c" />
+    <ClCompile Include="..\lib_dec\transition_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\updt_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\vlpc_1st_dec.c" />
+    <ClCompile Include="..\lib_dec\vlpc_2st_dec.c" />
+    <ClCompile Include="..\lib_dec\voiced_dec_fx.c" />
+    <ClCompile Include="..\lib_dec\voip_client.c" />
+    <ClCompile Include="..\lib_dec\waveadjust_fec_dec.c" />
+    <ClCompile Include="..\lib_dec\decoder.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\lib_dec\rom_dec_fx.h" />
+    <ClInclude Include="..\lib_dec\stat_dec_fx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="common.vcxproj">
+      <Project>{39ec200d-7795-4ff8-b214-b24eda5526ae}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="lib_fx.vcxproj">
+      <Project>{52ef5f7b-df20-4ba8-96e0-dcb4a9b3d200}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
