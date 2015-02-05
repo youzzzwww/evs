@@ -433,6 +433,7 @@
       <Filter>evs_enc_c</Filter>
     </ClCompile>
     <ClCompile Include="..\lib_enc\encoder.c" />
+    <ClCompile Include="..\EVS_send\rtpSend.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib_enc\rom_enc_fx.h">
@@ -444,5 +445,6 @@
     <ClInclude Include="..\lib_enc\stat_enc_types.h">
       <Filter>evs_enc_h</Filter>
     </ClInclude>
+    <ClInclude Include="..\EVS_send\rtpSend.h" />
   </ItemGroup>
 </Project>

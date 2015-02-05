@@ -99,6 +99,104 @@ G192_ReadVoipFrame_compact(G192_HANDLE const hG192,
     return G192_NO_ERROR;
 }
 
+//G192_ERROR
+//G192_ReadVoipFrame_short(G192_HANDLE const hG192,
+//                         Word16 * const serial,
+//                         Word16 *num_bits,
+//                         Word16 *rtpSequenceNumber,
+//                         Word32 *rtpTimeStamp,
+//                         Word32 *rcvTime_ms)
+//{
+//    Word32 rtpPacketSize;
+//    Word16 rtpPacketHeaderPart1;
+//    Word32 ssrc;
+//    Word16 rtpPayloadG192[2];
+//    Word16 rtpPayloadSize;
+//
+//    /* RTP packet size */
+//    if(fread(&rtpPacketSize, sizeof(rtpPacketSize), 1, hG192->file) != 1)
+//    {
+//        return G192_READ_ERROR;
+//    }
+//
+//    if(rtpPacketSize <= 12)
+//    {
+//        fprintf(stderr, "RTP Packet size too small: %d\n", rtpPacketSize);
+//        return G192_READ_ERROR;
+//    }
+//
+//    /* RTP packet arrival time */
+//    if(fread(rcvTime_ms, sizeof(*rcvTime_ms), 1, hG192->file) != 1)
+//    {
+//        return G192_READ_ERROR;
+//    }
+//
+//    /* RTP packet header (part without sequence number) */
+//    if(fread(&rtpPacketHeaderPart1, sizeof(rtpPacketHeaderPart1), 1, hG192->file) != 1)
+//    {
+//        return G192_READ_ERROR;
+//    }
+//
+//    if(rtpPacketHeaderPart1 != RTP_HEADER_PART1)
+//    {
+//        fprintf(stderr, "Unexpected RTP Packet header\n");
+//        return G192_READ_ERROR;
+//    }
+//
+//    /* RTP sequence number */
+//    if(fread(rtpSequenceNumber, sizeof(*rtpSequenceNumber), 1, hG192->file) != 1)
+//    {
+//        return G192_READ_ERROR;
+//    }
+//
+//    *rtpSequenceNumber = ntohs(*rtpSequenceNumber);
+//    /* RTP timestamp */
+//    if(fread(rtpTimeStamp, sizeof(*rtpTimeStamp), 1, hG192->file) != 1)
+//    {
+//        return G192_READ_ERROR;
+//    }
+//
+//    *rtpTimeStamp = ntohl(*rtpTimeStamp);
+//    /* RTP ssrc */
+//    if(fread(&ssrc, sizeof(ssrc), 1, hG192->file) != 1)
+//    {
+//        return G192_READ_ERROR;
+//    }
+//
+//    /* RTP payload size */
+//    rtpPayloadSize = (Word16)(rtpPacketSize - 12);
+//    if(rtpPayloadSize <= 2)
+//    {
+//        fprintf(stderr, "RTP payload size too small: %d\n", rtpPayloadSize);
+//        return G192_READ_ERROR;
+//    }
+//    /* RTP payload */
+//    if(fread(rtpPayloadG192, sizeof(Word16), 2, hG192->file) != 2)
+//    {
+//        fprintf(stderr, "Premature end of file, cannot read G.192 header\n");
+//        return G192_READ_ERROR;
+//    }
+//    if(rtpPayloadG192[0] != G192_SYNC_GOOD_FRAME)
+//    {
+//        fprintf(stderr, "G192_SYNC_WORD missing from RTP payload!");
+//        return G192_READ_ERROR;
+//    }
+//    *num_bits = rtpPayloadG192[1];
+//    if(*num_bits == 0 || *num_bits + 2 != rtpPayloadSize || *num_bits > MAX_BITS_PER_FRAME)
+//    {
+//        fprintf(stderr, "error in parsing RTP payload: rtpPayloadSize=%u nBits=%d",
+//                rtpPayloadSize, *num_bits);
+//        return G192_READ_ERROR;
+//    }
+//    if( (Word16)fread(serial, sizeof(Word16), *num_bits, hG192->file) != *num_bits)
+//    {
+//        fprintf(stderr, "Premature end of file, cannot read G.192 payload\n");
+//        return G192_READ_ERROR;
+//    }
+//
+//    return G192_NO_ERROR;
+//}
+//changed by xiesongbo 2015/02/03
 G192_ERROR
 G192_ReadVoipFrame_short(G192_HANDLE const hG192,
                          Word16 * const serial,
@@ -149,14 +247,14 @@ G192_ReadVoipFrame_short(G192_HANDLE const hG192,
         return G192_READ_ERROR;
     }
 
-    *rtpSequenceNumber = ntohs(*rtpSequenceNumber);
+    //*rtpSequenceNumber = ntohs(*rtpSequenceNumber);
     /* RTP timestamp */
     if(fread(rtpTimeStamp, sizeof(*rtpTimeStamp), 1, hG192->file) != 1)
     {
         return G192_READ_ERROR;
     }
 
-    *rtpTimeStamp = ntohl(*rtpTimeStamp);
+    //*rtpTimeStamp = ntohl(*rtpTimeStamp);
     /* RTP ssrc */
     if(fread(&ssrc, sizeof(ssrc), 1, hG192->file) != 1)
     {
@@ -182,7 +280,7 @@ G192_ReadVoipFrame_short(G192_HANDLE const hG192,
         return G192_READ_ERROR;
     }
     *num_bits = rtpPayloadG192[1];
-    if(*num_bits == 0 || *num_bits + 2 != rtpPayloadSize || *num_bits > MAX_BITS_PER_FRAME)
+    if(*num_bits == 0 || *num_bits + 2 != rtpPayloadSize/2 || *num_bits > MAX_BITS_PER_FRAME)
     {
         fprintf(stderr, "error in parsing RTP payload: rtpPayloadSize=%u nBits=%d",
                 rtpPayloadSize, *num_bits);

@@ -75,7 +75,7 @@
       <Culture>0x0c0c</Culture>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib\WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Lib\WS2_32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>

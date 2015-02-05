@@ -35,25 +35,24 @@ int rtpInitialize()
 	
 	return 1;
 }
+
 int rtpSend(char* buffer, int size)
 {
 	int seq_num=0,send_size=0;
 	static int count=0;
-	uint32_t user_ts=0;
-//rtp发送
-	while(send_size<size)
+	static uint32_t user_ts=0;
+//发送空包
+	if(size ==0)
 	{
-		
-			rtp_session_send_with_ts(session,(unsigned char*)buffer+send_size,1924,user_ts);
-			seq_num = rtp_session_get_seq_number(session);
-			count++;				
-			printf("send %d packet\n",count);
-
-			send_size += 1924;
-			user_ts += 160;
-		
-		
+		rtp_session_send_with_ts(session,(unsigned char*)buffer+send_size,0,user_ts);
 	}
+	//发送数据
+	else{
+		rtp_session_send_with_ts(session,(unsigned char*)buffer, size, user_ts);
+	}
+	count++;
+	printf("send %d packet\n",count);
+	user_ts += 160;
 	return 1;
 }
 /*

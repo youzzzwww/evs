@@ -1,4 +1,7 @@
 #pragma once
+
+#define WIN32
+#pragma comment(lib, "oRTP.lib")
 #include "ortp/ortp.h"
 #include <time.h>
 

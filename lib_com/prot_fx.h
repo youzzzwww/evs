@@ -176,6 +176,12 @@ void write_indices_fx(
     FILE *file                       /* i  : output bitstream file                     */
 );
 
+void write_indices_fx2(
+    Encoder_State_fx *st_fx,      /* i/o: encoder state structure */
+    char *buffer ,       /* i  : output bitstream buffer   */
+	int *size                         /* data size */
+	);
+
 Word16 read_indices_fx(                     /* o  : 1 = OK, 0 = something wrong            */
     Decoder_State_fx *st_fx,                    /* i/o: decoder state structure */
     FILE *file,                      /* i  : bitstream file                         */

@@ -127,7 +127,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\lib_enc;..\lib_dec;..\lib_com;..\basic_op;..\basic_math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib_enc;..\lib_dec;..\lib_com;..\basic_op;..\basic_math;..\EVS_send;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling>
       </ExceptionHandling>
@@ -150,9 +150,7 @@
       <Culture>0x0c0c</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
-      <OutputFile>..\EVS_cod.exe</OutputFile>
+      <OutputFile>.\Debug_Enc\evs_enc.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <ManifestFile>
       </ManifestFile>
@@ -166,6 +164,9 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>..\EVS_send;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -173,6 +174,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\EVS_send\rtpSend.c" />
     <ClCompile Include="..\lib_enc\ACcontextMapping_enc.c" />
     <ClCompile Include="..\lib_enc\acelp_core_enc_fx.c" />
     <ClCompile Include="..\lib_enc\acelp_core_switch_enc_fx.c" />
@@ -317,6 +319,7 @@
     <ClCompile Include="..\lib_enc\encoder.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\EVS_send\rtpSend.h" />
     <ClInclude Include="..\lib_enc\rom_enc_fx.h" />
     <ClInclude Include="..\lib_enc\stat_enc_fx.h" />
     <ClInclude Include="..\lib_enc\stat_enc_types.h" />

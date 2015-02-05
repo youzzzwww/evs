@@ -15,6 +15,7 @@
 #include "disclaimer.h"
 
 #include "EvsRXlib.h"
+#include "rtpRecv.h"
 
 /*------------------------------------------------------------------------------------------*
  * Global variables
@@ -76,8 +77,12 @@ int main(int argc, char *argv[])
 
     IF(st_fx->Opt_VOIP_fx)
     {
-        IF( decodeVoip(st_fx, f_stream, f_synth, jbmTraceFileName, jbmFECoffsetFileName  ) != 0 )
+		rtpRecvInitalize(8000, 1, 40);
+		rtpRecv(f_stream);
+		rtpDestory();
+		rewind(f_stream);
 
+        IF( decodeVoip(st_fx, f_stream, f_synth, jbmTraceFileName, jbmFECoffsetFileName  ) != 0 )
         {
             return -1;
         }

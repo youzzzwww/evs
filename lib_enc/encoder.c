@@ -17,7 +17,7 @@
 #include "g192.h"
 #include "stat_enc_fx.h"
 #include "prot_fx.h"
-
+#include "rtpSend.h"
 /*------------------------------------------------------------------------------------------*
  * Global variables
  *------------------------------------------------------------------------------------------*/
@@ -34,6 +34,7 @@ long frame = 0;                 /* Counter of frames */
 
 
 int main( int argc, char** argv )
+//	int enc_evs( int argc, char** argv )
 {
     FILE             *f_stream = NULL;                    /* output bitstream file */
     Word32 i;
@@ -53,11 +54,15 @@ int main( int argc, char** argv )
     Word16 quietMode = 0;
     Word16 noDelayCmp = 0;
 
+	char buffer_192[(2+MAX_BITS_PER_FRAME)*sizeof(short)]; //buffer for evs send
+	//char *buffer_192=NULL;
+	int size=0;   //size of buffer_192
 
 
     /* start WMOPS counting */
     BASOP_init
 
+	rtpInitialize();
     /*Inits*/
     f_bwidth = f_rate = NULL;
     {
@@ -95,7 +100,7 @@ int main( int argc, char** argv )
     init_encoder_fx( st_fx );
     reset_indices_enc_fx( st_fx );
 
-    /*------------------------------------------------------------------------------------------*
+    /*------------------------------------------------------------------------------------------* 
      * Compensate for encoder delay (bitstream aligned with input signal)
      * Compensate for the rest of codec delay (local synthesis aligned with decoded signal and original signal)
      *------------------------------------------------------------------------------------------*/
@@ -209,10 +214,13 @@ int main( int argc, char** argv )
             evs_enc_fx( st_fx, data, n_samples);
             END_SUB_WMOPS;
         }
-
+	//size=0;
         /* write indices into bitstream file */
-        write_indices_fx( st_fx, f_stream );
-
+		//write_indices_fx(st_fx, f_stream);
+        write_indices_fx2( st_fx,  buffer_192, &size);
+	
+		rtpSend(buffer_192, size);
+		
         END_SUB_WMOPS;
         /* update WMPOS counting (end of frame) */
 
@@ -234,7 +242,7 @@ int main( int argc, char** argv )
 #endif
     }
     /* ----- Encode-a-frame loop end ----- */
-
+	rtpSend(buffer_192, 0); //结束时发送空包
 
     if (quietMode == 0)
     {
@@ -269,7 +277,8 @@ int main( int argc, char** argv )
 
     BASOP_end_noprint
 
-
+	
+rtpDestory();
     IF(f_input)
     fclose(f_input);
     IF(f_stream)

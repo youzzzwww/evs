@@ -166,7 +166,7 @@ void io_ini_dec_fx(
 
     if( i < argc - 1 )
     {
-        if ( (*f_stream = fopen(argv[i], "rb")) == NULL)
+        if ( (*f_stream = fopen(argv[i], "rb+")) == NULL)
         {
             fprintf(stderr,"Error: input bitstream file %s cannot be opened\n\n", argv[i]);
             usage_dec();

@@ -4,13 +4,13 @@
 
 #include <stdlib.h>
 #include <assert.h>
+
 #include "stl.h"
 #include "cnst_fx.h"        /* Common constants                       */
 #include "prot_fx.h"        /* Function prototypes                    */
 #include "options.h"
 #include "basop_util.h"
 #include "rom_com_fx.h"
-
 
 /*-------------------------------------------------------------------*
  * push_indice_fx( )
@@ -340,8 +340,84 @@ void write_indices_fx(
     }
 
     /* write the serial stream into file */
-    fwrite( stream, sizeof(unsigned short), 2+stream[1], file );
+	
+   fwrite( stream, sizeof(unsigned short), 2+stream[1], file );
+	
+	
+	//rtpSend((char*)stream,sizeof(unsigned short)*(2+stream[1]));
+    /* reset index pointers */
+    st_fx->nb_bits_tot_fx = 0;
+    st_fx->next_ind_fx = 0;
+    st_fx->last_ind_fx = -1;
 
+    return;
+}
+
+void write_indices_fx2(
+    Encoder_State_fx *st_fx,      /* i/o: encoder state structure */
+    char *buffer ,       /* i  : output bitstream buffer   */
+	int *size                         /* data size */
+	)
+{
+    Word16 i, k;
+    Word16 stream[2+MAX_BITS_PER_FRAME], *pt_stream;
+    Word32  mask;
+    /*-----------------------------------------------------------------*
+     * Encode Sync Header and Frame Length
+     *-----------------------------------------------------------------*/
+
+    pt_stream = stream;
+    for (i=0; i<(2 + MAX_BITS_PER_FRAME); ++i)
+    {
+        stream[i] = 0;
+    }
+    *pt_stream++ = (Word16)SYNC_GOOD_FRAME;
+    *pt_stream++ = st_fx->nb_bits_tot_fx;
+
+    /*----------------------------------------------------------------*
+     * Bitstream packing (conversion of individual indices into a serial stream)
+     * Writing the serial stream into file
+     *----------------------------------------------------------------*/
+
+    for (i=0; i<MAX_NUM_INDICES; i++)
+    {
+        if (st_fx->ind_list_fx[i].nb_bits != -1)
+        {
+            /* mask from MSB to LSB */
+            mask = 1 << (st_fx->ind_list_fx[i].nb_bits - 1);
+
+            /* write bit by bit */
+            for (k=0; k < st_fx->ind_list_fx[i].nb_bits; k++)
+            {
+                if ( st_fx->ind_list_fx[i].value & mask )
+                {
+                    *pt_stream++ = G192_BIN1;
+                }
+                else
+                {
+                    *pt_stream++ = G192_BIN0;
+                }
+
+                mask >>= 1;
+            }
+        }
+    }
+
+    /* Clearing of indices */
+    FOR (i=0; i<MAX_NUM_INDICES; i++)
+    {
+        st_fx->ind_list_fx[i].nb_bits = -1;
+        move16();
+    }
+
+    /* write the serial stream into file */
+	
+   //fwrite( stream, sizeof(unsigned short), 2+stream[1], file );
+	
+	
+	memcpy( buffer, stream, sizeof(unsigned short)*(2+stream[1]));
+	*size =  sizeof(unsigned short)*(2+stream[1]);
+	//buffer=(char*)malloc(sizeof(unsigned short)*(2+stream[1]));
     /* reset index pointers */
     st_fx->nb_bits_tot_fx = 0;
     st_fx->next_ind_fx = 0;
