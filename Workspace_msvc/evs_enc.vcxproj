@@ -320,7 +320,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EVS_send\rtpSend.h" />
-    <ClInclude Include="..\EVS_send\rtpTime.h" />
     <ClInclude Include="..\lib_enc\rom_enc_fx.h" />
     <ClInclude Include="..\lib_enc\stat_enc_fx.h" />
     <ClInclude Include="..\lib_enc\stat_enc_types.h" />

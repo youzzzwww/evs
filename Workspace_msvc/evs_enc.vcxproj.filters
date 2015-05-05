@@ -446,6 +446,5 @@
       <Filter>evs_enc_h</Filter>
     </ClInclude>
     <ClInclude Include="..\EVS_send\rtpSend.h" />
-    <ClInclude Include="..\EVS_send\rtpTime.h" />
   </ItemGroup>
 </Project>

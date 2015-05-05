@@ -62,7 +62,13 @@ int main( int argc, char** argv )
     /* start WMOPS counting */
     BASOP_init
 
+	//add by youyou to initialize packets sending parameters and record parameters
+	FILE* f_sendtime_record=fopen("..\\time_record.txt","w+");
+	int current_time=0;
+	int prev_time=0;
 	rtpInitialize();
+	prev_time=current_time=getCurrentMilliseconds();
+
     /*Inits*/
     f_bwidth = f_rate = NULL;
     {
@@ -218,8 +224,17 @@ int main( int argc, char** argv )
         /* write indices into bitstream file */
 		//write_indices_fx(st_fx, f_stream);
 
+		//change by youyou to send packets
+		current_time=getCurrentMilliseconds();
+		fprintf(f_sendtime_record, "%d th frame's encode time cost:%d", frame,current_time-prev_time);
+		prev_time=current_time;
+
         write_indices_fx2( st_fx,  buffer_192, &size);	
 		rtpSend(buffer_192, size);
+
+		current_time=getCurrentMilliseconds();
+		fprintf(f_sendtime_record, ", its send time cost:%d\n",current_time-prev_time);
+		prev_time=current_time;
 		
         END_SUB_WMOPS;
         /* update WMPOS counting (end of frame) */
@@ -277,8 +292,11 @@ int main( int argc, char** argv )
 
     BASOP_end_noprint
 
-	
-rtpDestory();
+	//add by youyou to release all resourse defined
+	rtpDestory();
+	if(f_sendtime_record)
+		fclose(f_sendtime_record);
+
     IF(f_input)
     fclose(f_input);
     IF(f_stream)
