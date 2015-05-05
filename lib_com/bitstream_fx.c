@@ -1067,6 +1067,8 @@ Word16 read_indices_fx(                /* o  : 1 = reading OK, 0 = problem      
     st->mdct_sw = 0;
     reset_indices_dec_fx( st );
 
+	//add the fseek to ignore rtp header
+	fseek(file, 20, SEEK_CUR);
     /* read the Sync Header field from the bitstream */
     /* in case rew_flag is set, read until first good frame is encountered */
     do

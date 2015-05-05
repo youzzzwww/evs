@@ -217,8 +217,8 @@ int main( int argc, char** argv )
 	//size=0;
         /* write indices into bitstream file */
 		//write_indices_fx(st_fx, f_stream);
-        write_indices_fx2( st_fx,  buffer_192, &size);
-	
+
+        write_indices_fx2( st_fx,  buffer_192, &size);	
 		rtpSend(buffer_192, size);
 		
         END_SUB_WMOPS;

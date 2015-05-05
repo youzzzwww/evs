@@ -346,8 +346,6 @@
       <Filter>evs_dec_c</Filter>
     </ClCompile>
     <ClCompile Include="..\lib_dec\decoder.c" />
-    <ClCompile Include="..\EVS_send\rtpRecv.c" />
-    <ClCompile Include="..\EVS_send\udpRecv.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib_dec\rom_dec_fx.h">
@@ -356,7 +354,5 @@
     <ClInclude Include="..\lib_dec\stat_dec_fx.h">
       <Filter>evs_dec_h</Filter>
     </ClInclude>
-    <ClInclude Include="..\EVS_send\rtpRecv.h" />
-    <ClInclude Include="..\EVS_send\udpRecv.h" />
   </ItemGroup>
 </Project>

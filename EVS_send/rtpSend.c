@@ -1,13 +1,21 @@
 #include "rtpSend.h"
 
-
 const char* ipAddr = "127.0.0.1";
-const int port = 8000;
+const int port = 30998;
 RtpSession *session;
 
+int getCurrentMilliseconds()
+{
+	unsigned int time=0;
+	SYSTEMTIME sys;
+	GetLocalTime( &sys );
+	time = sys.wHour*60*60*1000 + sys.wMinute*60*1000
+		+ sys.wSecond*1000 + sys.wMilliseconds;
+	return time;
+}
 //long encoder_handle; //编码器句柄
 int BUF_MAX=65536,OUT_BUF_SIZE=1000;
-
+uint32_t user_ts;
 
 int rtpInitialize()
 {
@@ -15,6 +23,7 @@ int rtpInitialize()
 	char *ssrc;
 	int clockslide=0;
 	int jitter=0;
+	user_ts=getCurrentMilliseconds();
 
 	ortp_init();
 	ortp_scheduler_init();
@@ -37,22 +46,18 @@ int rtpInitialize()
 }
 
 int rtpSend(char* buffer, int size)
-{
-	int seq_num=0,send_size=0;
+{//if size=0, send a empty packet
 	static int count=0;
-	static uint32_t user_ts=0;
-//发送空包
-	if(size ==0)
-	{
-		rtp_session_send_with_ts(session,(unsigned char*)buffer+send_size,0,user_ts);
-	}
-	//发送数据
-	else{
-		rtp_session_send_with_ts(session,(unsigned char*)buffer, size, user_ts);
-	}
+	static int send_ts=0;
+	mblk_t *m;
+
+	m = rtp_session_create_packet(session,RTP_FIXED_HEADER_SIZE,(uint8_t*)buffer,size);
+	rtp_session_sendm_with_sendts(session,m,user_ts,send_ts);
+
 	count++;
 	printf("send %d packet\n",count);
-	user_ts += 160;
+	user_ts += 20;
+	send_ts += 160;
 	return 1;
 }
 /*

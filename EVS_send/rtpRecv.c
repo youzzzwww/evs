@@ -6,6 +6,13 @@ RtpSession *session;
 //const int jitter_adapt=0;
 
 //FILE *fp;
+
+int getCurrentMillisecond(void)
+{
+	SYSTEMTIME time;
+	GetLocalTime(&time);
+	return time.wMilliseconds;
+}
 int rtpRecvInitalize(int port, int jitter_adapt, int jittcomp)
 {
 	ortp_init();
@@ -31,10 +38,10 @@ int rtpRecv(FILE* fin)
 	int package_size=0,payload_size=0;
 	short rtp_header = 22;
 	int ssrc_pad = 0;
-	int ts=0,last_recv=0;
+	int ts=0,last_recv=0,next_millisec=0;
 
 	unsigned char data[2000];int data_size=0;
-	int packet_start = 0;
+	int packet_start=0, start_ts=0;
 	unsigned char *start=NULL;
 
 	while(1)
@@ -52,26 +59,41 @@ int rtpRecv(FILE* fin)
 			//if(package_size == 0)
 			//	break;
 			last_recv = ts;  //记录最后一次接受包
-			packet_start = 1;
+			
 			data_size=0;
+			if(packet_start)
+				next_millisec = (ts-start_ts)+160;
+			else
+			{
+				start_ts = ts;
+				next_millisec = 160;
+			}
+			///* rtp header transfer to evs header */
+			//memcpy(data+data_size, &package_size, sizeof(int));
+			//data_size += sizeof(int);
+			//memcpy(data+data_size, &next_millisec, sizeof(int));
+			//data_size += sizeof(int);
 
-			memcpy(data+data_size, &package_size, sizeof(int));
-			data_size += sizeof(int);
-			memcpy(data+data_size, &ts, sizeof(int));
-			data_size += sizeof(int);
+			//memcpy(data+data_size, &rtp_header, sizeof(short));
+			//data_size += sizeof(short);
+			//memcpy(data+data_size, mp->b_rptr+2, 3*sizeof(short));
+			//data_size += 3*sizeof(short);
+			//memcpy(data+data_size, &ssrc_pad, sizeof(int));
+			//data_size += sizeof(int);
+			//memcpy(data+data_size, start, payload_size);
+			//data_size += payload_size;
 
-			memcpy(data+data_size, &rtp_header, sizeof(short));
-			data_size += sizeof(short);
-			memcpy(data+data_size, mp->b_rptr+2, 3*sizeof(short));
-			data_size += 3*sizeof(short);
-			memcpy(data+data_size, &ssrc_pad, sizeof(int));
-			data_size += sizeof(int);
+			/* origin rtp header */
+			memcpy(data+data_size, mp->b_rptr, RTP_FIXED_HEADER_SIZE);
+			data_size += RTP_FIXED_HEADER_SIZE;
 			memcpy(data+data_size, start, payload_size);
 			data_size += payload_size;
+			//记录开始
+			packet_start = 1;
 
 			fwrite(data, data_size, 1, fin);
 		}
-		if( ts-last_recv > 160*300 && packet_start ) //超时退出
+		if( ts-last_recv > 160*200 && packet_start ) //超时退出
 			break;
 		ts += 160;
 	}

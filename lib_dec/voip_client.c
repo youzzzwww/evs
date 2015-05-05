@@ -106,6 +106,9 @@ Word16 decodeVoip(
     /* read first packet */
     g192err = G192_ReadVoipFrame_compact(g192, au, &auSize,
                                          &rtpSequenceNumber, &rtpTimeStamp, &nextPacketRcvTime_ms);
+	/* add by youyou to initialize the system time */
+	systemTime_ms = nextPacketRcvTime_ms;
+
     if(g192err != G192_NO_ERROR)
     {
         fprintf(stderr,"failed to read first RTP packet\n");
@@ -215,7 +218,7 @@ Word16 decodeVoip(
         }
         printf("\rDecoding Frame [%6d]", frame);
         frame++;
-        systemTime_ms += 20;
+		systemTime_ms += 20;
     }
 
     /* add zeros at the end to have equal length of synthesized signals */
