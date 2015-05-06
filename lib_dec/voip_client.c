@@ -58,8 +58,10 @@ Word16 decodeVoip(
     Word16          rtpSequenceNumber;
     Word32          rtpTimeStamp;
 
-    Word16 pcmBuf[3 * L_FRAME48k] = {0};
-    Word16 pcmBufSize = 3 * L_FRAME48k;
+	Word16 pcmBuf[6 * L_FRAME48k] = {0};
+    Word16 pcmBufSize = 6 * L_FRAME48k;
+    //Word16 pcmBuf[3 * L_FRAME48k] = {0};
+    //Word16 pcmBufSize = 3 * L_FRAME48k;
 
 
     /* open input file */

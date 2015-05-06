@@ -9,6 +9,7 @@
 #include <string.h>
 #include <time.h>
 #include <string.h>
+#define NDEBUG
 #include <assert.h>
 #include <sys/stat.h>
 #include "options.h"

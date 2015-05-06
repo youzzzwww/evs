@@ -415,7 +415,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
         {
             return EVS_RX_TIMESCALER_ERROR;
         }
-        result = apa_exec( hEvsRX->hTimeScaler, pcmBuf, st->output_frame_fx,
+        result = apa_exec( hEvsRX->hTimeScaler, pcmBuf, st->output_frame_fx*2,
                            maxScaling, pcmBuf, &nTimeScalerOutSamples );
         IF( result != 0 )
         {

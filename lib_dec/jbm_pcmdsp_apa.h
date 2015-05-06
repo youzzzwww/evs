@@ -17,11 +17,14 @@
 */
 
 /* size of IO buffers (a_in[], a_out[]) for apa_exec() */
-#define APA_BUF (48000/50*3)
+//#define APA_BUF (48000/50*3)
+#define APA_BUF (48000/50*8)
 
 /* min/max  scaling [%] */
-#define APA_MIN_SCALE 50
-#define APA_MAX_SCALE 150
+//#define APA_MIN_SCALE 50
+//#define APA_MAX_SCALE 150
+#define APA_MIN_SCALE 30
+#define APA_MAX_SCALE 170
 
 
 /*
