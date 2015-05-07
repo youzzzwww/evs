@@ -63,7 +63,8 @@ void apa_reset(apa_state_t *s);
 Word8 apa_set_rate(
     apa_state_t *ps,
     Word32      rate,
-    Word16      num_channels);
+    Word16      num_channels,
+	short frames_per_sample);
 
 /*! Set scaling.
  *  The scale is given in % and will be valid until changed again.

@@ -215,7 +215,7 @@ void apa_reset (apa_state_t * ps)
 }
 
 /* Sets the audio configuration. */
-Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels )
+Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels, short frames_per_sample )
 {
     Word16 divScaleFac;
 
@@ -254,9 +254,8 @@ Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels )
     //ps->l_frm = shl( ps->l_frm, add( divScaleFac,1 ) );
 
 	//change by youyou
-	//ps->l_frm equal to rate*channels/25
-	ps->l_frm = BASOP_Util_Divide3216_Scale( L_mult0_3216( ps->rate, ps->num_channels ), 25, &divScaleFac );
-    ps->l_frm = shl( ps->l_frm, add( divScaleFac,1 ) );
+	//ps->l_frm equal to (rate*channels/50)*frames_per_sample
+	ps->l_frm = (ps->rate*ps->num_channels/50)*frames_per_sample;
 
     /* set segment size */
     /* in the order of a pitch, set to 160 samples at 16 kHz */
@@ -264,7 +263,8 @@ Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels )
     /* the size of the template segment. */
     /* before basop port was originally : ps->l_seg = ( ps->rate * ps->num_channels ) / 100 );
      * but whilst frm_size is still hard-coded the seg_size can be taken from half frm_size */
-    ps->l_seg = shr( ps->l_frm, 1 );
+    //ps->l_seg = shr( ps->l_frm, 1 );
+	ps->l_seg = ( ps->rate * ps->num_channels ) / 100 ;
 
     /* init Hann window */
     /* Note: l_win < APA_BUF is required, which is assured */
@@ -309,7 +309,8 @@ Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels )
     /* (defines min change in number of samples, i.e., abs(l_in-l_out) >= p_min) */
     /* before basop port was originally: ps->p_min = (ps->rate * ps->num_channels) / 400;
      * but for simplicity can be taken as l_seg / 4 */
-    ps->p_min = shr( ps->l_seg, 2 );
+    //ps->p_min = shr( ps->l_seg, 2 );
+	ps->p_min = (ps->rate * ps->num_channels) / 400;
 
     /* set search length */
     /* must cover one pitch, set to 200 samples at 16 kHz */
@@ -318,7 +319,7 @@ Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels )
     //ps->l_search = BASOP_Util_Divide3216_Scale( L_mult0_3216( ps->rate, ps->num_channels ), 80, &divScaleFac );
     //ps->l_search = shl( ps->l_search, add( divScaleFac,1 ) );
 
-	ps->l_search = BASOP_Util_Divide3216_Scale( L_mult0_3216( ps->rate, ps->num_channels ), 40, &divScaleFac );
+	ps->l_search = BASOP_Util_Divide3216_Scale( L_mult0_3216( ps->rate, ps->num_channels ), 80/frames_per_sample, &divScaleFac );
     ps->l_search = shl( ps->l_search, add( divScaleFac,1 ) );
 
     ps->signalScaleForCorrelation = getSignalScaleForCorrelation(ps->rate);

@@ -60,6 +60,7 @@ Word16 decodeVoip(
 
 	Word16 pcmBuf[6 * L_FRAME48k] = {0};
     Word16 pcmBufSize = 6 * L_FRAME48k;
+	short frames_per_apa = 4;
     //Word16 pcmBuf[3 * L_FRAME48k] = {0};
     //Word16 pcmBufSize = 3 * L_FRAME48k;
 
@@ -83,7 +84,7 @@ Word16 decodeVoip(
     }
 
     /* initialize receiver */
-    rxerr = EVS_RX_Open(&hRX, st_fx, jbmSafetyMargin);
+    rxerr = EVS_RX_Open(&hRX, st_fx, jbmSafetyMargin, frames_per_apa);
     if(rxerr)
     {
         fprintf(stderr,"unable to open receiver\n");
@@ -157,7 +158,7 @@ Word16 decodeVoip(
             break;
 
         /* decode and get samples */
-        rxerr = EVS_RX_GetSamples(hRX, &nSamples, pcmBuf, pcmBufSize, systemTime_ms);
+        rxerr = EVS_RX_GetSamples(hRX, &nSamples, pcmBuf, pcmBufSize, systemTime_ms, frames_per_apa);
 
         EVS_RX_Get_FEC_offset(hRX, &optimum_offset, &FEC_hi);
 

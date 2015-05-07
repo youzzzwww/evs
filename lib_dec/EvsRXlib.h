@@ -42,7 +42,8 @@ typedef struct EVS_RX*     EVS_RX_HANDLE;
 EVS_RX_ERROR
 EVS_RX_Open(EVS_RX_HANDLE* phEvsRX,
             Decoder_State_fx *st,
-            Word16 jbmSafetyMargin);
+            Word16 jbmSafetyMargin,
+			short frames_per_apa);
 
 /*! Sets the name of the JBM trace file which will be created. */
 EVS_RX_ERROR
@@ -64,7 +65,8 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
                   Word16 *nOutSamples,
                   Word16 *pcmBuf,
                   Word16 pcmBufSize,
-                  Word32 systemTimestamp_ms) ;
+                  Word32 systemTimestamp_ms,
+				  short frames_per_apa) ;
 
 Word16
 EVS_RX_Get_FEC_offset( EVS_RX_HANDLE hEvsRX, Word16 *offset, Word16 *FEC_hi);

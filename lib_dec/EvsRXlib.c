@@ -38,7 +38,8 @@ static Word16 isSidFrame( Word16 size );
 /* Opens the EVS Receiver instance. */
 EVS_RX_ERROR EVS_RX_Open(EVS_RX_HANDLE* phEvsRX,
                          Decoder_State_fx *st,
-                         Word16 jbmSafetyMargin)
+                         Word16 jbmSafetyMargin,
+						 short frames_per_apa)
 {
     EVS_RX_HANDLE hEvsRX;
     Word16 i, divScaleFac;
@@ -131,7 +132,7 @@ EVS_RX_ERROR EVS_RX_Open(EVS_RX_HANDLE* phEvsRX,
     test();
     test();
     IF( apa_init( &hEvsRX->hTimeScaler ) != 0 ||
-        apa_set_rate( hEvsRX->hTimeScaler, st->output_Fs_fx, 1 ) != 0 ||
+        apa_set_rate( hEvsRX->hTimeScaler, st->output_Fs_fx, 1, frames_per_apa) != 0 ||
         apa_set_complexity_options( hEvsRX->hTimeScaler, wss, css ) != 0 ||
         apa_set_quality( hEvsRX->hTimeScaler, L_deposit_h(1), 4, 4 ) != 0 ||
         pcmdsp_fifo_create( &hEvsRX->hFifoAfterTimeScaler ) != 0 ||
@@ -264,7 +265,8 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
                   Word16 *nOutSamples,
                   Word16 *pcmBuf,
                   Word16 pcmBufSize,
-                  Word32 systemTimestamp_ms)
+                  Word32 systemTimestamp_ms,
+				  short frames_per_apa)
 {
     Decoder_State_fx *st;
     Word16 soundCardFrameSize, extBufferedSamples;
@@ -273,6 +275,11 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
     Word16 timeScalingDone, result;
     JB4_DATAUNIT_HANDLE dataUnit;
     Word16 tmp;
+	//add by youyou to decode frames_per_apa once time
+	//short frames_per_apa = 2
+	short i=0;
+	int previous_frame_length=0;
+	short* current_pcmBuf=NULL;
 
     assert(hEvsRX->st->output_frame_fx <= pcmBufSize);
     assert(hEvsRX->st->output_frame_fx <= APA_BUF);
@@ -291,117 +298,123 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
         extBufferedTime_ms = L_deposit_l(idiv1616U(extBufferedSamples, hEvsRX->samplesPerMs));
         dataUnit = NULL;
         move16();
-        /* pop one access unit from the jitter buffer */
-        result = JB4_PopDataUnit(hEvsRX->hJBM, systemTimestamp_ms, extBufferedTime_ms, &dataUnit, &scale, &maxScaling);
-        IF(result != 0)
-        {
-            return EVS_RX_JBM_ERROR;
-        }
-        maxScaling = i_mult2(maxScaling, hEvsRX->samplesPerMs);
-        /* avoid time scaling multiple times in one sound card slot */
-        IF(sub(scale, 100) != 0)
-        {
-            if( timeScalingDone != 0 )
-            {
-                scale = 100;
-                move16();
-            }
-            timeScalingDone = 1;
-            move16();
-        }
 
-        /* copy bitstream into decoder state */
-        IF(dataUnit)
-        {
-            IF( sub(st->codec_mode,0) != 0 )
-            {
-                tmp = 0;
-                if (sub(dataUnit->partial_frame,1)==0)
-                {
-                    tmp = 1;
-                }
-                read_indices_from_djb_fx( st, dataUnit->data, dataUnit->dataSize, tmp, dataUnit->nextCoderType );
+		for(i=0; i<frames_per_apa; i++)
+		{
+			/* pop one access unit from the jitter buffer */
+			result = JB4_PopDataUnit(hEvsRX->hJBM, systemTimestamp_ms, extBufferedTime_ms, &dataUnit, &scale, &maxScaling);
+			IF(result != 0)
+			{
+				return EVS_RX_JBM_ERROR;
+			}
+			maxScaling = i_mult2(maxScaling, hEvsRX->samplesPerMs);
+			/* avoid time scaling multiple times in one sound card slot */
+			IF(sub(scale, 100) != 0)
+			{
+				if( timeScalingDone != 0 )
+				{
+					scale = 100;
+					move16();
+				}
+				timeScalingDone = 1;
+				move16();
+			}
 
-                IF(dataUnit->partial_frame != 0)
-                {
-                    st->codec_mode = MODE2;
-                    st->use_partial_copy = 1;
-                }
-            }
-            ELSE /* initialize decoder with first received frame */
-            {
-                /* initialize, since this is needed within read_indices_from_djb, to correctly set st->last_codec_mode */
-                st->ini_frame_fx = 0;
-                /* initialize st->last_codec_mode, since this is needed for init_decoder() */
-                read_indices_from_djb_fx( st, dataUnit->data, dataUnit->dataSize, 0, 0 );
-                assert(st->codec_mode != 0);
-                init_decoder_fx( st );
+			/* copy bitstream into decoder state */
+			IF(dataUnit)
+			{
+				IF( sub(st->codec_mode,0) != 0 )
+				{
+					tmp = 0;
+					if (sub(dataUnit->partial_frame,1)==0)
+					{
+						tmp = 1;
+					}
+					read_indices_from_djb_fx( st, dataUnit->data, dataUnit->dataSize, tmp, dataUnit->nextCoderType );
 
-                /* parse frame again because init_decoder() overwrites st->total_brate_fx */
-                read_indices_from_djb_fx( st, dataUnit->data, dataUnit->dataSize, 0, 0 );
-            }
+					IF(dataUnit->partial_frame != 0)
+					{
+						st->codec_mode = MODE2;
+						st->use_partial_copy = 1;
+					}
+				}
+				ELSE /* initialize decoder with first received frame */
+				{
+					/* initialize, since this is needed within read_indices_from_djb, to correctly set st->last_codec_mode */
+					st->ini_frame_fx = 0;
+					/* initialize st->last_codec_mode, since this is needed for init_decoder() */
+					read_indices_from_djb_fx( st, dataUnit->data, dataUnit->dataSize, 0, 0 );
+					assert(st->codec_mode != 0);
+					init_decoder_fx( st );
 
-        }
-        ELSE IF( st->codec_mode != 0 )
-        {
-            read_indices_from_djb_fx( st, NULL, 0, 0, 0 );
-        }
+					/* parse frame again because init_decoder() overwrites st->total_brate_fx */
+					read_indices_from_djb_fx( st, dataUnit->data, dataUnit->dataSize, 0, 0 );
+				}
 
-        /* run the main decoding routine */
-        SUB_WMOPS_INIT("evs_dec");
-        IF( sub(st->codec_mode, MODE1) == 0 )
-        {
-            IF( st->Opt_AMR_WB_fx )
-            {
-                amr_wb_dec_fx( pcmBuf, st );
-            }
-            ELSE
-            {
-                evs_dec_fx( st, pcmBuf, FRAMEMODE_NORMAL );
-            }
-        }
-        ELSE IF( sub(st->codec_mode, MODE2) == 0 )
-        {
-            IF(st->bfi_fx == 0)
-            {
-                evs_dec_fx(st, pcmBuf, FRAMEMODE_NORMAL);
-            }
-            ELSE IF ( sub(st->bfi_fx,2) == 0 )
-            {
-                evs_dec_fx(st, pcmBuf, FRAMEMODE_FUTURE);   /* FRAMEMODE_FUTURE */
-            }
-            ELSE /* conceal */
-            {
-                evs_dec_fx(st, pcmBuf, FRAMEMODE_MISSING);
-            }
-        }
-        END_SUB_WMOPS;
-        test();
-        IF( sub(st->codec_mode, MODE1) == 0 || sub(st->codec_mode, MODE2) == 0 )
-        {
-            /* increase the counter of initialization frames */
-            if( sub(st->ini_frame_fx, MAX_FRAME_COUNTER) < 0 )
-            {
-                st->ini_frame_fx = add(st->ini_frame_fx, 1);
-            }
-        }
-        ELSE /* codec mode to use not known yet */
-        {
-            set16_fx( pcmBuf, 0, st->output_frame_fx );
-        }
+			}
+			ELSE IF( st->codec_mode != 0 )
+			{
+				read_indices_from_djb_fx( st, NULL, 0, 0, 0 );
+			}
 
-        IF(dataUnit != NULL)
-        {
-            IF(dataUnit->partial_frame != 0)
-            {
-                hEvsRX->lastDecodedWasActive = 1;
-                move16();
-            }
-            ELSE
-            {
-                hEvsRX->lastDecodedWasActive = s_xor(dataUnit->silenceIndicator, 1);
-            }
-        }
+			/* run the main decoding routine */
+			current_pcmBuf = pcmBuf + previous_frame_length/2;
+			SUB_WMOPS_INIT("evs_dec");
+			IF( sub(st->codec_mode, MODE1) == 0 )
+			{
+				IF( st->Opt_AMR_WB_fx )
+				{
+					amr_wb_dec_fx( current_pcmBuf, st );
+				}
+				ELSE
+				{
+					evs_dec_fx( st, current_pcmBuf, FRAMEMODE_NORMAL );
+				}
+			}
+			ELSE IF( sub(st->codec_mode, MODE2) == 0 )
+			{
+				IF(st->bfi_fx == 0)
+				{
+					evs_dec_fx(st, current_pcmBuf, FRAMEMODE_NORMAL);
+				}
+				ELSE IF ( sub(st->bfi_fx,2) == 0 )
+				{
+					evs_dec_fx(st, current_pcmBuf, FRAMEMODE_FUTURE);   /* FRAMEMODE_FUTURE */
+				}
+				ELSE /* conceal */
+				{
+					evs_dec_fx(st, current_pcmBuf, FRAMEMODE_MISSING);
+				}
+			}
+			END_SUB_WMOPS;
+			test();
+			IF( sub(st->codec_mode, MODE1) == 0 || sub(st->codec_mode, MODE2) == 0 )
+			{
+				/* increase the counter of initialization frames */
+				if( sub(st->ini_frame_fx, MAX_FRAME_COUNTER) < 0 )
+				{
+					st->ini_frame_fx = add(st->ini_frame_fx, 1);
+				}
+			}
+			ELSE /* codec mode to use not known yet */
+			{
+				set16_fx( current_pcmBuf, 0, st->output_frame_fx );
+			}
+
+			IF(dataUnit != NULL)
+			{
+				IF(dataUnit->partial_frame != 0)
+				{
+					hEvsRX->lastDecodedWasActive = 1;
+					move16();
+				}
+				ELSE
+				{
+					hEvsRX->lastDecodedWasActive = s_xor(dataUnit->silenceIndicator, 1);
+				}
+			}
+			previous_frame_length = st->output_frame_fx;
+		}
 
         /* limit scale to range supported by time scaler */
         if(sub(scale, APA_MIN_SCALE) < 0)
@@ -415,7 +428,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
         {
             return EVS_RX_TIMESCALER_ERROR;
         }
-        result = apa_exec( hEvsRX->hTimeScaler, pcmBuf, st->output_frame_fx*2,
+        result = apa_exec( hEvsRX->hTimeScaler, pcmBuf, st->output_frame_fx*frames_per_apa,
                            maxScaling, pcmBuf, &nTimeScalerOutSamples );
         IF( result != 0 )
         {
