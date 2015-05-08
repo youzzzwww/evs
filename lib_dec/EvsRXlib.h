@@ -49,7 +49,9 @@ EVS_RX_Open(EVS_RX_HANDLE* phEvsRX,
 EVS_RX_ERROR
 EVS_RX_SetJbmTraceFileName(EVS_RX_HANDLE hEvsRX,
                            const char *jbmTraceFileName);
-
+EVS_RX_ERROR
+EVS_RX_SetPcmTraceFileName(EVS_RX_HANDLE hEvsRX,
+                           const char *pcm_filename);
 /*! Feeds one frame into the receiver. */
 EVS_RX_ERROR
 EVS_RX_FeedFrame(EVS_RX_HANDLE hEvsRX,

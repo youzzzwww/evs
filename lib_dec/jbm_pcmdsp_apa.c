@@ -498,7 +498,8 @@ Word8 apa_exec (apa_state_t * ps, /* i/o: state struct */
                 Word16  l_in, /* i:   number of input samples */
                 Word16  maxScaling, /* i: allowed number of inserted/removed samples */
                 Word16  a_out[], /* o:   output samples */
-                Word16 *l_out /* o:   number of output samples */)
+                Word16 *l_out, /* o:   number of output samples */
+				FILE* frecord /*o: pcm record file */)
 {
     Word16 i;
     Word16 frm_in[APA_BUF];
@@ -596,6 +597,8 @@ Word8 apa_exec (apa_state_t * ps, /* i/o: state struct */
             frm_in_ptr[i] = a_in[i];
             move16();
         }
+		//record pcm data before time-changed
+		//fwrite(frm_in_ptr, ps->l_frm, 2, frecord);
         /* no scaling */
         IF( sub( ps->scale, 100 ) == 0 )
         {
@@ -610,6 +613,7 @@ Word8 apa_exec (apa_state_t * ps, /* i/o: state struct */
         ELSE {
             extend_frm (ps, frm_in, a_out, &l_frm_out);
         }
+
         /* control the amount/frequency of scaling */
         IF( sub( l_frm_out, ps->l_frm ) != 0 )
         {

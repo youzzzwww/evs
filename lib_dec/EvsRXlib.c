@@ -29,6 +29,7 @@ struct EVS_RX
     PCMDSP_APA_HANDLE        hTimeScaler;
     PCMDSP_FIFO_HANDLE       hFifoAfterTimeScaler;
     FILE                    *jbmTraceFile;
+	FILE*                    pcmRecordFile;            //store pcm data before shrink-extend
 };
 
 /* function to check if a frame contains a SID */
@@ -160,6 +161,24 @@ EVS_RX_SetJbmTraceFileName(EVS_RX_HANDLE hEvsRX,
             return EVS_RX_WRONG_PARAMS;
         }
         fprintf( hEvsRX->jbmTraceFile, "#rtpSeqNo;rtpTs;rcvTime;playTime;active\n" );
+    }
+    return EVS_RX_NO_ERROR;
+}
+/* Sets the name of the PCM trace file to store origin decoded data. */
+EVS_RX_ERROR
+EVS_RX_SetPcmTraceFileName(EVS_RX_HANDLE hEvsRX,
+                           const char *pcm_filename)
+{
+    /* JBM trace file writing is only done for EVS testing and is not instrumented. */
+    if( hEvsRX->pcmRecordFile )
+        fclose( hEvsRX->pcmRecordFile );
+    if( pcm_filename != NULL )
+    {
+        hEvsRX->pcmRecordFile = fopen( pcm_filename, "wb+" );
+        if( !hEvsRX->pcmRecordFile )
+        {
+            return EVS_RX_WRONG_PARAMS;
+        }
     }
     return EVS_RX_NO_ERROR;
 }
@@ -358,7 +377,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 			}
 
 			/* run the main decoding routine */
-			current_pcmBuf = pcmBuf + previous_frame_length/2;
+			current_pcmBuf = pcmBuf + previous_frame_length;
 			SUB_WMOPS_INIT("evs_dec");
 			IF( sub(st->codec_mode, MODE1) == 0 )
 			{
@@ -414,6 +433,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 				}
 			}
 			previous_frame_length = st->output_frame_fx;
+			//fwrite(current_pcmBuf,previous_frame_length,2,hEvsRX->pcmRecordFile);
 		}
 
         /* limit scale to range supported by time scaler */
@@ -428,8 +448,9 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
         {
             return EVS_RX_TIMESCALER_ERROR;
         }
-        result = apa_exec( hEvsRX->hTimeScaler, pcmBuf, st->output_frame_fx*frames_per_apa,
-                           maxScaling, pcmBuf, &nTimeScalerOutSamples );
+
+		result = apa_exec( hEvsRX->hTimeScaler, pcmBuf, st->output_frame_fx*frames_per_apa,
+                           maxScaling, pcmBuf, &nTimeScalerOutSamples, hEvsRX->pcmRecordFile );
         IF( result != 0 )
         {
             return EVS_RX_TIMESCALER_ERROR;
@@ -548,7 +569,8 @@ EVS_RX_Close(EVS_RX_HANDLE* phRX )
 
     if( (*phRX)->jbmTraceFile )
         fclose( (*phRX)->jbmTraceFile );
-
+	if( (*phRX)->pcmRecordFile )
+        fclose( (*phRX)->pcmRecordFile );
     free( *phRX );
     *phRX = NULL;
     move16();

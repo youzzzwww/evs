@@ -92,6 +92,7 @@ Word8 apa_exec(
     Word16        l_in,
     Word16        maxScaling,
     Word16        a_out[],
-    Word16        *l_out);
+    Word16        *l_out,
+	FILE*         frecord);
 
 #endif /* PCMDSP_APA_H */

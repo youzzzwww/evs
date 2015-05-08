@@ -58,12 +58,13 @@ Word16 decodeVoip(
     Word16          rtpSequenceNumber;
     Word32          rtpTimeStamp;
 
+	//changed by youyou to shrink-extend multiply frames once time
 	Word16 pcmBuf[6 * L_FRAME48k] = {0};
     Word16 pcmBufSize = 6 * L_FRAME48k;
-	short frames_per_apa = 4;
+	short frames_per_apa = 2;
+	const char* pcm_filename = "..\\record.pcm";
     //Word16 pcmBuf[3 * L_FRAME48k] = {0};
     //Word16 pcmBufSize = 3 * L_FRAME48k;
-
 
     /* open input file */
     g192err = G192_Reader_Open(&g192, f_stream);
@@ -96,7 +97,7 @@ Word16 decodeVoip(
         fprintf(stderr,"unable to set JBM trace file: %s\n", jbmTraceFileName);
         return -1;
     }
-
+	rxerr = EVS_RX_SetPcmTraceFileName(hRX, pcm_filename);
     /* calculate the delay compensation to have the decoded signal aligned with the original input signal */
     /* the number of first output samples will be reduced by this amount */
     dec_delay = NS2SA_fx2(st_fx->output_Fs_fx, get_delay_fx(DEC, st_fx->output_Fs_fx));
