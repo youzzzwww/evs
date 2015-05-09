@@ -8,6 +8,12 @@ int getCurrentMilliseconds()
 {
 	return Time::getCurrentMilliseconds();
 }
+int getGaussRand(int delay_jitter)
+{
+	int jitter=0;
+	jitter = delay_jitter + delay_jitter/2*Time::NormalDistrWithScale(2);
+	return jitter;
+}
 int udpRecvBind(int port)
 {
 	packet = new Package();
@@ -23,7 +29,7 @@ void udpToEvs(FILE* fout)
 		if(packet->getLength() == 12)
 			break;
 		printf("packet receive, length:%d\n",packet->getLength());
-		packet->headToEvs();
+		packet->udpHeadToEvs();
 		packet->writeToFile(fout);
 	}
 }
@@ -35,7 +41,7 @@ void udpDataWriteToFile(FILE* fout)
 		if(packet->getLength() == 12)
 			break;
 		printf("packet receive, length:%d\n",packet->getLength());
-		packet->splitHead(12);
+		packet->splitHead("12");
 		packet->dataWriteToFile(fout);
 	}
 }

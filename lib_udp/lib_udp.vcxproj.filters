@@ -41,5 +41,8 @@
     <ClCompile Include="udpToEvs.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\EVS_send\rtpTime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

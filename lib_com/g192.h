@@ -4,7 +4,7 @@
 
 #ifndef G192_H
 #define G192_H G192_H
-
+#include "..\lib_udp\udpToEvs.h"
 /*
  * ENUMS
  */

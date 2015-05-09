@@ -1,19 +1,14 @@
 #include <gtest\gtest.h>
 #include "package.h"
+#include "rtpTime.h"
 
-TEST(TimeTest, getMillisecondTest)
-{
-	int millisecond = Time::getCurrentMilliseconds();
-	EXPECT_GE(millisecond, 0);
-	EXPECT_LE(millisecond, 24*60*60*1000);
-}
 TEST(packageTest, headerAddTest)
 {
 	UdpHeader* head = new UdpHeader();
 	head->setData("l");
 	Package* packet = new Package("abc");
 	EXPECT_EQ(packet->addHeader(head), 1);
-	EXPECT_STREQ(packet->header.getData(), "l");
+	EXPECT_STREQ(packet->header->getData(), "l");
 	EXPECT_STREQ(packet->payload.getData(), "abc");
 	EXPECT_STREQ(packet->getData(),"labc");
 
@@ -21,8 +16,8 @@ TEST(packageTest, headerAddTest)
 TEST(packageTest, headerSplitTest)
 {
 	Package* packet = new Package("abcdefg");
-	packet->splitHead(4);
-	EXPECT_STREQ(packet->header.getData(), "abcd");
+	packet->splitHead("4");
+	EXPECT_STREQ(packet->header->getData(), "abcd");
 	EXPECT_STREQ((packet->payload).getData(), "efg");
 }
 TEST(packageTest, packageContentTest)
@@ -40,8 +35,33 @@ TEST(packageTest, headerTransferTest)
 	FILE* fin = fopen("..\\udpIn.192", "rb");
 	Package* packet = new Package();
 	packet->readFromFile(fin, 1936);
-	packet->headToEvs();
+	packet->udpHeadToEvs();
 	fclose(fin);
+}
+TEST(packageTest, evsHeaderJitterTest)
+{
+	FILE* fin = fopen("..\\es03.192", "rb");
+	Header* evs_header = new EvsHeader();
+	evs_header->simulatorDelay(20);
+	evs_header->readFromFile(fin, 24);
+	evs_header->setJitter(20*Time::NormalDistrWithScale(2));
+	fclose(fin);
+}
+TEST(packageTest, evsAddJitterTest)
+{
+	FILE* fin = fopen("..\\es03.192", "rb");
+	FILE* fout = fopen("..\\es03_jitter.192", "wb");
+	Package* packet = new Package();
+	while( packet->readFromFile(fin, 1946) )
+	{
+		packet->splitHead("evs");
+		packet->header->simulatorDelay(20);
+		packet->header->setJitter(10*Time::NormalDistrWithScale(2));
+		packet->compose();
+		packet->writeToFile(fout);
+	}
+	fclose(fin);
+	fclose(fout);
 }
 TEST(packageTest, headerTransferWriteTest)
 {
@@ -50,7 +70,7 @@ TEST(packageTest, headerTransferWriteTest)
 	Package* packet = new Package();
 	while( packet->readFromFile(fin, 1936) )
 	{
-		packet->headToEvs();
+		packet->udpHeadToEvs();
 		packet->writeToFile(fout);
 	}
 	fclose(fin);

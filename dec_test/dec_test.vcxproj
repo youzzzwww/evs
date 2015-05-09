@@ -84,8 +84,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\EVS_send\package.cpp" />
+    <ClCompile Include="..\EVS_send\rtpTime.cpp" />
     <ClCompile Include="..\EVS_send\udpSocket.cpp" />
     <ClCompile Include="packageTest.cpp" />
+    <ClCompile Include="rtpTimeTest.cpp" />
     <ClCompile Include="udpRecvTest.cpp" />
   </ItemGroup>
   <ItemGroup>

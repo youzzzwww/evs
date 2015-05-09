@@ -39,29 +39,68 @@ void UdpHeader::toEvs()
 	this->addHead(rtp_header);
 	this->addEvsHead();
 }
-int Package::addHeader(UdpHeader* head)
+void EvsHeader::simulatorDelay(int delay)
 {
-	this->header = *head;
+	this->delay = delay;
+}
+void EvsHeader::setJitter(int time)
+{
+	char buffer[5];
+	buffer[4] = '\0';
+	std::string time_stamp = this->getRecvTime();
+	int origin_recv;
+	memcpy(&origin_recv, time_stamp.c_str(), 4);
+
+	origin_recv = ntohl(origin_recv);
+	origin_recv += this->delay + time;
+	origin_recv = htonl(origin_recv);
+
+	memcpy(buffer, &origin_recv, 4);
+	this->setRecvTime(buffer);
+}
+int Package::addHeader(Header* head)
+{
+	this->header = head;
 	this->payload.setString(this->data);
 	this->data = head->getString() + data;
-	this->header.setPayloadSize(this->payload.getLength());
+	this->header->setPayloadSize(this->payload.getLength());
 	return head->getLength();
 }
 void Package::splitHead(int head_size)
 {
-	this->header.setString(this->data.substr(0,head_size));
+	this->header->setString(this->data.substr(0,head_size));
 	this->payload.setString(this->data.substr(head_size));
-	this->header.setPayloadSize(this->payload.getLength());
+	this->header->setPayloadSize(this->payload.getLength());
 }
-void Package::headToEvs()
+void Package::splitHead(std::string head_type)
 {
-	this->splitHead(12);
-	this->header.toEvs();
+	if(this->header)
+		delete header;
+	if(head_type == "udp")
+	{
+		this->header = new UdpHeader();
+		this->splitHead(12);
+	}
+	else if(head_type == "evs")
+	{
+		this->header = new EvsHeader();
+		this->splitHead(20);
+	}
+	else
+	{
+		this->header = new RawHeader();
+		this->splitHead(atoi(head_type.c_str()));
+	}
+}
+void Package::udpHeadToEvs()
+{
+	this->splitHead("udp");
+	(this->header)->toEvs();
 	this->compose();
 }
 void Package::compose()
 {
-	this->data = this->header.getString() + this->payload.getString();
+	this->data = this->header->getString() + this->payload.getString();
 }
 void Package::dataWriteToFile(FILE* fout)
 {

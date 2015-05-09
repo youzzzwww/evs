@@ -27,6 +27,12 @@
     <ClCompile Include="packageTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\EVS_send\rtpTime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="rtpTimeTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EVS_send\udpSocket.h">

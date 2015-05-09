@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\EVS_send\package.cpp" />
+    <ClCompile Include="..\EVS_send\rtpTime.cpp" />
     <ClCompile Include="..\EVS_send\udpSocket.cpp" />
     <ClCompile Include="udpToEvs.cpp" />
   </ItemGroup>

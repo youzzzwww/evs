@@ -163,6 +163,8 @@ G192_ReadVoipFrame_short(G192_HANDLE const hG192,
         return G192_READ_ERROR;
     }
 
+	//add by youyou to set jitter
+	*rcvTime_ms = *rtpTimeStamp + getGaussRand(400);
     /* RTP payload size */
     rtpPayloadSize = (Word16)(rtpPacketSize - 12);
     if(rtpPayloadSize <= 2)

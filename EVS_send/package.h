@@ -37,8 +37,10 @@ public:
 
 	template <typename T> void addHead(T head);
 	void addEvsHead();
-	virtual void toEvs()=0;
-public:
+	virtual void toEvs(){}
+	virtual void setJitter(int time){}
+	virtual void simulatorDelay(int delay){}
+private:
 	int packet_size;
 	int recv_time;
 	//short rtp_header;
@@ -47,10 +49,30 @@ public:
 	//int ssrc;
 	int payload_size;
 };
+class RawHeader:public Header
+{
+public:
+	RawHeader(){}
+};
+class EvsHeader:public Header
+{
+public:
+	EvsHeader(){}
+	virtual void setJitter(int time);
+	virtual void simulatorDelay(int delay);
+	std::string getRecvTime()
+	{return this->data.substr(4,4);}
+	std::string getTimeStamp()
+	{return this->data.substr(12,4);}
+	void setRecvTime(const char* recv_time)
+	{this->data.replace(4,4,recv_time,4);}
+private:
+	int delay;     //network delay simulating in milliseconds
+};
 class UdpHeader:public Header
 {
 public:
-	UdpHeader(){};
+	UdpHeader(){}
 
 	virtual void toEvs();
 	std::string getRtpHeader()
@@ -66,16 +88,23 @@ public:
 class Package:public Data
 {
 public:
-	Package(){}
+	Package(){this->header=NULL;}
 	Package(char* p):Data(p)
-	{}
+	{this->header=NULL;}
+	~Package() 
+	{
+		if(this->header)
+			delete this->header;
+	}
 
-	int addHeader(UdpHeader* head);
-	void splitHead(int head_size);
-	void headToEvs();
+	int addHeader(Header* head);
+	void splitHead(std::string head_type);
+	void udpHeadToEvs();
 	void compose();
 	void dataWriteToFile(FILE* fout);
+private:
+	void splitHead(int head_size);
 public:
-	UdpHeader header;
+	Header* header;
 	Data payload;
 };

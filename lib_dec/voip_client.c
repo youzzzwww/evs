@@ -61,7 +61,7 @@ Word16 decodeVoip(
 	//changed by youyou to shrink-extend multiply frames once time
 	Word16 pcmBuf[6 * L_FRAME48k] = {0};
     Word16 pcmBufSize = 6 * L_FRAME48k;
-	short frames_per_apa = 2;
+	short frames_per_apa = 1;
 	const char* pcm_filename = "..\\record.pcm";
     //Word16 pcmBuf[3 * L_FRAME48k] = {0};
     //Word16 pcmBufSize = 3 * L_FRAME48k;
