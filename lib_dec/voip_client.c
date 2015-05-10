@@ -32,6 +32,7 @@ Word16 decodeVoip(
     Decoder_State_fx *st_fx,
     FILE *f_stream,
     FILE *f_synth,
+	FILE *f_jitter,
     const char *jbmTraceFileName
     ,const char *jbmFECoffsetFileName /* : Output file  for Optimum FEC offset        */
 )
@@ -61,7 +62,7 @@ Word16 decodeVoip(
 	//changed by youyou to shrink-extend multiply frames once time
 	Word16 pcmBuf[6 * L_FRAME48k] = {0};
     Word16 pcmBufSize = 6 * L_FRAME48k;
-	short frames_per_apa = 1;
+	short frames_per_apa = 4;
 	const char* pcm_filename = "..\\record.pcm";
     //Word16 pcmBuf[3 * L_FRAME48k] = {0};
     //Word16 pcmBufSize = 3 * L_FRAME48k;
@@ -108,7 +109,7 @@ Word16 decodeVoip(
     BASOP_init
 
     /* read first packet */
-    g192err = G192_ReadVoipFrame_compact(g192, au, &auSize,
+    g192err = G192_ReadVoipFrame_compact(g192, au, &auSize, f_jitter,
                                          &rtpSequenceNumber, &rtpTimeStamp, &nextPacketRcvTime_ms);
 	/* add by youyou to initialize the system time */
 	systemTime_ms = nextPacketRcvTime_ms;
@@ -140,7 +141,7 @@ Word16 decodeVoip(
                 return -1;
             }
             /* read the next packet */
-            g192err = G192_ReadVoipFrame_compact(g192, au, &auSize,
+            g192err = G192_ReadVoipFrame_compact(g192, au, &auSize, f_jitter,
                                                  &rtpSequenceNumber, &rtpTimeStamp, &nextPacketRcvTime_ms);
             if(g192err == G192_READ_ERROR)
             {

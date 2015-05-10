@@ -318,6 +318,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
         dataUnit = NULL;
         move16();
 
+		current_pcmBuf = pcmBuf;
 		for(i=0; i<frames_per_apa; i++)
 		{
 			/* pop one access unit from the jitter buffer */
@@ -377,7 +378,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 			}
 
 			/* run the main decoding routine */
-			current_pcmBuf = pcmBuf + previous_frame_length;
+			current_pcmBuf += previous_frame_length;
 			SUB_WMOPS_INIT("evs_dec");
 			IF( sub(st->codec_mode, MODE1) == 0 )
 			{
@@ -449,6 +450,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
             return EVS_RX_TIMESCALER_ERROR;
         }
 
+		//fwrite(pcmBuf,st->output_frame_fx*frames_per_apa,2,hEvsRX->pcmRecordFile);
 		result = apa_exec( hEvsRX->hTimeScaler, pcmBuf, st->output_frame_fx*frames_per_apa,
                            maxScaling, pcmBuf, &nTimeScalerOutSamples, hEvsRX->pcmRecordFile );
         IF( result != 0 )

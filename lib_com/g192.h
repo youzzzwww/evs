@@ -44,6 +44,7 @@ G192_ERROR
 G192_ReadVoipFrame_compact(G192_HANDLE const hG192,
                            unsigned char * const serial,
                            Word16 * const num_bits,
+						   FILE * f_jitter,
                            Word16 *rtpSequenceNumber,
                            Word32 *rtpTimeStamp,
                            Word32 *rcvTime_ms);

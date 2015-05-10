@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
     Word16            zero_pad, dec_delay,output_frame;
     FILE              *f_stream;                          /* input bitstream file        */
     FILE              *f_synth;                           /* output synthesis file       */
+	FILE              *f_jitter;                          /* add by youyou to produce extra jitter */
     UWord16           bit_stream[MAX_BITS_PER_FRAME+16];
     Word16            output[3*L_FRAME48k];               /* buffer for output synthesis */
     char              *jbmTraceFileName = NULL;           /* VOIP tracefile name         */
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
 
     st_fx->bit_stream_fx = bit_stream;
 
-    io_ini_dec_fx( argc, argv, &f_stream, &f_synth,
+    io_ini_dec_fx( argc, argv, &f_stream, &f_synth, &f_jitter,
                    &quietMode,
                    &noDelayCmp,
                    st_fx,
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
 		////fclose(f_stream);
 		//rewind(f_stream);
 
-        IF( decodeVoip(st_fx, f_stream, f_synth, jbmTraceFileName, jbmFECoffsetFileName  ) != 0 )
+        IF( decodeVoip(st_fx, f_stream, f_synth, f_jitter, jbmTraceFileName, jbmFECoffsetFileName  ) != 0 )
         {
             return -1;
         }
@@ -240,6 +241,7 @@ int main(int argc, char *argv[])
     free( st_fx );
     fclose( f_synth );
     fclose( f_stream );
+	fclose( f_jitter );
 
 
     return 0;

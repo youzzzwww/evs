@@ -73,6 +73,7 @@ G192_ERROR
 G192_ReadVoipFrame_compact(G192_HANDLE const hG192,
                            unsigned char * const serial,
                            Word16 * const num_bits,
+						   FILE *f_jitter,
                            Word16 *rtpSequenceNumber,
                            Word32 *rtpTimeStamp,
                            Word32 *rcvTime_ms)
@@ -80,12 +81,19 @@ G192_ReadVoipFrame_compact(G192_HANDLE const hG192,
     Word16 short_serial [MAX_BITS_PER_FRAME];
     G192_ERROR err;
     Word16 i;
+	double jitter=0;
 
     err = G192_ReadVoipFrame_short(hG192, short_serial, num_bits, rtpSequenceNumber, rtpTimeStamp, rcvTime_ms);
     if(err != G192_NO_ERROR)
     {
         return err;
     }
+	
+	if(f_jitter)
+	{
+		fscanf(f_jitter, "%f\n", &jitter);
+		*rcvTime_ms = *rtpTimeStamp + jitter;
+	}
 
     for(i=0; i<*num_bits; i++)
     {
@@ -164,7 +172,7 @@ G192_ReadVoipFrame_short(G192_HANDLE const hG192,
     }
 
 	//add by youyou to set jitter
-	*rcvTime_ms = *rtpTimeStamp + getGaussRand(400);
+	//*rcvTime_ms = *rtpTimeStamp + getGaussRand(400);
     /* RTP payload size */
     rtpPayloadSize = (Word16)(rtpPacketSize - 12);
     if(rtpPayloadSize <= 2)

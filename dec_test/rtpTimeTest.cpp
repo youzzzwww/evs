@@ -10,11 +10,12 @@ TEST(TimeTest, getMillisecondTest)
 TEST(TimeTest, normalDistributionTest)
 {
 	double data=0;
-	FILE* GaussDataFile=fopen("gauss.txt","w+");
+	int delay =80;
+	FILE* GaussDataFile=fopen("..\\gauss.txt","w+");
 	for(int i=0;i<1000;i++)
 	{
 		//data = Time::GaussRand();
-		data = Time::NormalDistrWithScale(2);
+		data = 80 + 80*Time::NormalDistrWithScale(1);
 		fprintf(GaussDataFile,"%f\n",data);
 	}
 	fclose(GaussDataFile);

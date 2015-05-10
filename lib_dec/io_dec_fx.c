@@ -33,6 +33,7 @@ void io_ini_dec_fx(
     char *argv[],             /* i  : command line arguments                    */
     FILE **f_stream,          /* o  : input bitstream file                      */
     FILE **f_synth,           /* o  : output synthesis file                     */
+	FILE **f_jitter,          /* i  : jitter file                                */
     Word16 *quietMode,             /* o  : limited printouts                         */
     Word16 *noDelayCmp,            /* o  : turn off delay compensation               */
     Decoder_State_fx *st_fx,           /* o  : Decoder static variables structure        */
@@ -54,6 +55,7 @@ void io_ini_dec_fx(
 
     *f_synth = NULL;
     *f_stream = NULL;
+	*f_jitter = NULL;
     st_fx->Opt_AMR_WB_fx = 0;
     st_fx->Opt_VOIP_fx = 0;
     set_zero_Word8((Word8 *)stmp, sizeof(stmp));
@@ -98,6 +100,21 @@ void io_ini_dec_fx(
             st_fx->writeFECoffset = 1;
             *jbmFECoffsetFileName = argv[i+1];
             i = i + 2;
+        }
+
+		/*-----------------------------------------------------------------*
+        * jitter setting file
+        *-----------------------------------------------------------------*/
+
+        ELSE IF ( strcmp( to_upper(argv[i]), "-JITTER_FILE" ) == 0 )
+        {
+            *f_jitter = fopen(argv[i+1],"r");
+            i = i + 2;
+			if(*f_jitter == NULL)
+			{
+				fprintf (stderr, "Error: jitter file cann't open!\n\n");
+				usage_dec();
+			}
         }
 
         /*-----------------------------------------------------------------*
@@ -270,6 +287,7 @@ static void usage_dec( void )
     fprintf(stdout, "-Tracefile TF    : Generate trace file named TF,\n");
     fprintf(stdout, "-no_delay_cmp    : Turn off delay compensation\n");
     fprintf(stdout, "-fec_cfg_file    : Output of the channel aware configuration. The outptut is  \n");
+	fprintf(stdout, "-jitter_file     : jitter time configuration\n");
     fprintf(stdout, "                   written into a .txt file. Each line contains the FER indicator \n");
     fprintf(stdout, "                   (HI|LO) and optimum FEC offset. \n");
 
