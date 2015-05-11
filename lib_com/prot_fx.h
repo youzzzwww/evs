@@ -262,8 +262,10 @@ Word16 decodeVoip(
     FILE *f_stream,
     FILE *f_synth,
 	FILE *f_jitter,
+	short multi_apa,
     const char *jbmTraceFileName
     , const char *jbmFECoffsetFileName    /* : Output file  for Optimum FEC offset        */
+	,const char *inputFileName
 );
 
 
@@ -273,9 +275,11 @@ void io_ini_dec_fx(
     FILE **f_stream,          /* o  : input bitstream file                      */
     FILE **f_synth,           /* o  : output synthesis file                     */
 	FILE **f_jitter,
+	short *multi_apa,
     Word16 *quietMode,             /* o  : limited printouts                         */
     Word16 *noDelayCmp,            /* o  : turn off delay compensation               */
     Decoder_State_fx *st_fx,           /* o  : Decoder static variables structure        */
+	char **inputFileName,
     char **jbmTraceFileName    /* o  : VOIP tracefilename                        */
     ,char **jbmFECoffsetFileName /* o  : Output file  for Optimum FEC offset       */
 );

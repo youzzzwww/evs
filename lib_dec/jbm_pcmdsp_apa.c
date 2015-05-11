@@ -77,6 +77,8 @@ struct apa_state_t
     Word32 targetQualityQ16;     /* Q15.16 */
     Word16 qualityred;           /* quality reduction threshold */
     Word16 qualityrise;          /* quality rising for adaptive quality thresholds */
+	int    totalQuality;         /* total quality of all the scaled frames */
+	short  total_scaled_count;
 
     Word16 last_pitch;           /* last pitch/sync position */
     Word16 bad_frame_count;      /* # frames before quality threshold is lowered */
@@ -211,6 +213,10 @@ void apa_reset (apa_state_t * ps)
     ps->good_frame_count = 0;
     move16();
     ps->num_channels = 0;
+    move16();
+	ps->totalQuality = 0;
+    move16();
+    ps->total_scaled_count = 0;
     move16();
 }
 
@@ -403,7 +409,16 @@ Word8 apa_set_quality(
     move16();
     return 0;
 }
-
+double apa_get_averageQuality(apa_state_t * ps)
+{
+	if(ps->totalQuality)
+		return ps->totalQuality/ps->total_scaled_count/6554*0.1;
+	else return 0;
+}
+int apa_get_scaledCount(apa_state_t * ps)
+{
+	return ps->total_scaled_count;
+}
 /*
 ********************************************************************************
 *
@@ -1190,6 +1205,8 @@ static Word16 shrink_frm (apa_state_t * ps,
         {
             ps->good_frame_count = add( ps->good_frame_count, 1 );
         }
+		ps->totalQuality += qualityQ16;
+		ps->total_scaled_count++;
     }
 
     /* Calculate output data */                                                 test();
@@ -1428,6 +1445,8 @@ static Word16 extend_frm (apa_state_t * ps,
                 {
                     ps->good_frame_count = add( ps->good_frame_count, 1 );
                 }
+				ps->totalQuality += qualityQ16;
+				ps->total_scaled_count++;
             }
 
             IF( findSynchResult > 0 )

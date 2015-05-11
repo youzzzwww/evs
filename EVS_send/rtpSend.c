@@ -1,18 +1,10 @@
 #include "rtpSend.h"
+#include "udpToEvs.h"
 
 const char* ipAddr = "127.0.0.1";
 const int port = 30998;
 RtpSession *session;
 
-int getCurrentMilliseconds()
-{
-	unsigned int time=0;
-	SYSTEMTIME sys;
-	GetLocalTime( &sys );
-	time = sys.wHour*60*60*1000 + sys.wMinute*60*1000
-		+ sys.wSecond*1000 + sys.wMilliseconds;
-	return time;
-}
 //long encoder_handle; //±àÂëÆ÷¾ä±ú
 int BUF_MAX=65536,OUT_BUF_SIZE=1000;
 uint32_t user_ts;
@@ -45,13 +37,14 @@ int rtpInitialize()
 	return 1;
 }
 
-int rtpSend(char* buffer, int size)
+int rtpSend(char* buffer, int size, FILE* f_stream)
 {//if size=0, send a empty packet
 	static int count=0;
 	static int send_ts=0;
 	mblk_t *m;
 
 	m = rtp_session_create_packet(session,RTP_FIXED_HEADER_SIZE,(uint8_t*)buffer,size);
+	rtpToEvs(f_stream, m->b_rptr, m->b_wptr-m->b_rptr);
 	rtp_session_sendm_with_sendts(session,m,user_ts,send_ts);
 
 	count++;

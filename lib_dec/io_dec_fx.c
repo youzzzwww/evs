@@ -34,9 +34,11 @@ void io_ini_dec_fx(
     FILE **f_stream,          /* o  : input bitstream file                      */
     FILE **f_synth,           /* o  : output synthesis file                     */
 	FILE **f_jitter,          /* i  : jitter file                                */
+	short *multi_apa,         /* i  : define how much frams once process        */
     Word16 *quietMode,             /* o  : limited printouts                         */
     Word16 *noDelayCmp,            /* o  : turn off delay compensation               */
     Decoder_State_fx *st_fx,           /* o  : Decoder static variables structure        */
+	char **inputFileName,
     char **jbmTraceFileName   /* o  : VOIP tracefilename                        */
     ,char **jbmFECoffsetFileName /* : Output file  for Optimum FEC offset        */
 )
@@ -116,6 +118,17 @@ void io_ini_dec_fx(
 				usage_dec();
 			}
         }
+		/*-----------------------------------------------------------------*
+         * frames in single process
+         *-----------------------------------------------------------------*/
+
+        ELSE IF ( strcmp( to_upper(argv[i]), "-MULTI_APA" ) == 0 )
+        {
+            *multi_apa = atoi(argv[i+1]);
+			if(*multi_apa<1 || *multi_apa>4)
+				*multi_apa = 1;
+            i = i+2;
+        }
 
         /*-----------------------------------------------------------------*
          * Quiet mode
@@ -183,6 +196,7 @@ void io_ini_dec_fx(
 
     if( i < argc - 1 )
     {
+		*inputFileName = argv[i];
         if ( (*f_stream = fopen(argv[i], "rb+")) == NULL)
         {
             fprintf(stderr,"Error: input bitstream file %s cannot be opened\n\n", argv[i]);
@@ -204,7 +218,7 @@ void io_ini_dec_fx(
 
     if( i < argc )
     {
-        if ( (*f_synth = fopen(argv[i], "wb")) == NULL )
+        if ( (*f_synth = fopen(argv[i], "wb+")) == NULL )
         {
             fprintf( stderr, "Error: ouput synthesis file %s cannot be opened\n\n", argv[i] );
             usage_dec();
@@ -293,6 +307,7 @@ static void usage_dec( void )
 
     fprintf(stdout, "-q               : Quiet mode, no frame counter\n");
     fprintf(stdout, "                   default is OFF\n");
+	fprintf(stdout, "-multi_apa       : how much frames per extend-shrink process\n");
     fprintf(stdout, "\n");
     exit(-1);
 }

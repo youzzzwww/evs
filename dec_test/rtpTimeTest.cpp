@@ -12,11 +12,14 @@ TEST(TimeTest, normalDistributionTest)
 	double data=0;
 	int delay =80;
 	FILE* GaussDataFile=fopen("..\\gauss.txt","w+");
-	for(int i=0;i<1000;i++)
+	for(int i=1;i<=20;i++)
 	{
-		//data = Time::GaussRand();
-		data = 80 + 80*Time::NormalDistrWithScale(1);
-		fprintf(GaussDataFile,"%f\n",data);
+		for(int j=0;j<100;j++)
+		{
+			//data = Time::GaussRand();
+			data = i*50 + 50*Time::NormalDistrWithScale(1);
+			fprintf(GaussDataFile,"%f\n",data);
+		}
 	}
 	fclose(GaussDataFile);
 }

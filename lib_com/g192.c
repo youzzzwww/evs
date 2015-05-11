@@ -81,7 +81,7 @@ G192_ReadVoipFrame_compact(G192_HANDLE const hG192,
     Word16 short_serial [MAX_BITS_PER_FRAME];
     G192_ERROR err;
     Word16 i;
-	double jitter=0;
+	float jitter=0;
 
     err = G192_ReadVoipFrame_short(hG192, short_serial, num_bits, rtpSequenceNumber, rtpTimeStamp, rcvTime_ms);
     if(err != G192_NO_ERROR)

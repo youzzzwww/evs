@@ -30,12 +30,15 @@ int main(int argc, char *argv[])
     FILE              *f_stream;                          /* input bitstream file        */
     FILE              *f_synth;                           /* output synthesis file       */
 	FILE              *f_jitter;                          /* add by youyou to produce extra jitter */
+	short             multi_apa=1;                           /* add by youyou to set multiple frames once */
+	int               sampling_rate;                      /* output sampling rate */
     UWord16           bit_stream[MAX_BITS_PER_FRAME+16];
     Word16            output[3*L_FRAME48k];               /* buffer for output synthesis */
     char              *jbmTraceFileName = NULL;           /* VOIP tracefile name         */
     Word16            quietMode = 0;
     Word16            noDelayCmp = 0;
     char              *jbmFECoffsetFileName = NULL;       /* FEC offset file name */
+	char              *inputFileName = NULL;              /* input file name */
 
     BASOP_init
 
@@ -61,13 +64,15 @@ int main(int argc, char *argv[])
     st_fx->bit_stream_fx = bit_stream;
 
     io_ini_dec_fx( argc, argv, &f_stream, &f_synth, &f_jitter,
-                   &quietMode,
+                   &multi_apa, &quietMode,
                    &noDelayCmp,
                    st_fx,
+				   &inputFileName,
                    &jbmTraceFileName
                    ,&jbmFECoffsetFileName
                  );
 
+	sampling_rate = st_fx->output_Fs_fx;
     /*output_frame = (short)(st_fx->output_Fs / 50);*/
     st_fx->output_frame_fx = extract_l(Mult_32_16(st_fx->output_Fs_fx , 0x0290));
 
@@ -90,7 +95,7 @@ int main(int argc, char *argv[])
 		////fclose(f_stream);
 		//rewind(f_stream);
 
-        IF( decodeVoip(st_fx, f_stream, f_synth, f_jitter, jbmTraceFileName, jbmFECoffsetFileName  ) != 0 )
+        IF( decodeVoip(st_fx, f_stream, f_synth, f_jitter, multi_apa, jbmTraceFileName, jbmFECoffsetFileName, inputFileName  ) != 0 )
         {
             return -1;
         }
@@ -237,6 +242,7 @@ int main(int argc, char *argv[])
         BASOP_end_noprint
     }
 
+	pcmToWav(f_synth, "..\\test.wav", sampling_rate);
     /* free memory etc. */
     free( st_fx );
     fclose( f_synth );

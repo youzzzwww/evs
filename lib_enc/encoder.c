@@ -9,7 +9,6 @@
 #include <string.h>
 #include <time.h>
 #include <string.h>
-#define NDEBUG
 #include <assert.h>
 #include <sys/stat.h>
 #include "options.h"
@@ -231,7 +230,7 @@ int main( int argc, char** argv )
 		prev_time=current_time;
 
         write_indices_fx2( st_fx,  buffer_192, &size);	
-		rtpSend(buffer_192, size);
+		rtpSend(buffer_192, size, f_stream);
 
 		current_time=getCurrentMilliseconds();
 		fprintf(f_sendtime_record, ", its send time cost:%d\n",current_time-prev_time);
@@ -258,7 +257,7 @@ int main( int argc, char** argv )
 #endif
     }
     /* ----- Encode-a-frame loop end ----- */
-	rtpSend(buffer_192, 0); //结束时发送空包
+	rtpSend(buffer_192, 0, f_stream); //结束时发送空包
 
     if (quietMode == 0)
     {

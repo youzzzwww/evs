@@ -33,8 +33,10 @@ Word16 decodeVoip(
     FILE *f_stream,
     FILE *f_synth,
 	FILE *f_jitter,
+	short multi_apa,
     const char *jbmTraceFileName
     ,const char *jbmFECoffsetFileName /* : Output file  for Optimum FEC offset        */
+	,const char *inputFileName
 )
 {
     /* input/output */
@@ -62,8 +64,9 @@ Word16 decodeVoip(
 	//changed by youyou to shrink-extend multiply frames once time
 	Word16 pcmBuf[6 * L_FRAME48k] = {0};
     Word16 pcmBufSize = 6 * L_FRAME48k;
-	short frames_per_apa = 4;
+	short frames_per_apa = multi_apa;
 	const char* pcm_filename = "..\\record.pcm";
+	const char* quality_filename = "..\\quality.txt";
     //Word16 pcmBuf[3 * L_FRAME48k] = {0};
     //Word16 pcmBufSize = 3 * L_FRAME48k;
 
@@ -98,7 +101,7 @@ Word16 decodeVoip(
         fprintf(stderr,"unable to set JBM trace file: %s\n", jbmTraceFileName);
         return -1;
     }
-	rxerr = EVS_RX_SetPcmTraceFileName(hRX, pcm_filename);
+	rxerr = EVS_RX_SetPcmTraceFileName(hRX, pcm_filename, quality_filename);
     /* calculate the delay compensation to have the decoded signal aligned with the original input signal */
     /* the number of first output samples will be reduced by this amount */
     dec_delay = NS2SA_fx2(st_fx->output_Fs_fx, get_delay_fx(DEC, st_fx->output_Fs_fx));
@@ -233,6 +236,7 @@ Word16 decodeVoip(
     printf("Decoding finished");
     printf("\n");
 
+	EVS_RX_getQuality(hRX,inputFileName,multi_apa);
     /* end of WMOPS counting */
     BASOP_end
 

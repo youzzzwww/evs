@@ -78,6 +78,7 @@
     <ClInclude Include="..\EVS_send\rtpTime.h" />
     <ClInclude Include="..\EVS_send\udpSocket.h" />
     <ClInclude Include="udpToEvs.h" />
+    <ClInclude Include="waveFileWrite.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\EVS_send\package.cpp" />

@@ -1,5 +1,6 @@
 #include "udpToEvs.h"
 #include "udpSocket.h"
+#include "waveFileWrite.h"
 
 Package* packet=NULL;
 UdpTransmission* udp_recv=NULL;
@@ -33,6 +34,16 @@ void udpToEvs(FILE* fout)
 		packet->writeToFile(fout);
 	}
 }
+void rtpToEvs(FILE* fout, unsigned char* start, int size)
+{
+	if(size == 0)
+		return;
+	packet = new Package();
+	packet->setData((const char*)start, size);
+	packet->udpHeadToEvs();
+	packet->writeToFile(fout);
+	delete packet;
+}
 void udpDataWriteToFile(FILE* fout)
 {
 	while(1)
@@ -50,4 +61,9 @@ void udpClose()
 	udp_recv->close();
 	delete udp_recv;
 	delete packet;
+}
+
+int pcmToWav(FILE* f_pcm, const char* wav_name, int sampling_rate)
+{
+	return addWavHeadToPcmFile(f_pcm, wav_name, sampling_rate, 2, 1);
 }

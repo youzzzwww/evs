@@ -5,6 +5,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "evs_dec", "evs_dec.vcxproj", "{E822DDAF-0F5F-4CD0-A694-38AE69DE74D3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "evs_enc", "evs_enc.vcxproj", "{824DA4CF-06F0-45C9-929A-8792F0E19C3E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3EF4B704-B26B-4CE0-9C64-BE0BA19FB0CA} = {3EF4B704-B26B-4CE0-9C64-BE0BA19FB0CA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_fx", "lib_fx.vcxproj", "{52EF5F7B-DF20-4BA8-96E0-DCB4A9B3D200}"
 EndProject

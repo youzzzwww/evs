@@ -51,7 +51,8 @@ EVS_RX_SetJbmTraceFileName(EVS_RX_HANDLE hEvsRX,
                            const char *jbmTraceFileName);
 EVS_RX_ERROR
 EVS_RX_SetPcmTraceFileName(EVS_RX_HANDLE hEvsRX,
-                           const char *pcm_filename);
+                           const char *pcm_filename,
+						   const char *quality_filename);
 /*! Feeds one frame into the receiver. */
 EVS_RX_ERROR
 EVS_RX_FeedFrame(EVS_RX_HANDLE hEvsRX,
@@ -73,6 +74,8 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 Word16
 EVS_RX_Get_FEC_offset( EVS_RX_HANDLE hEvsRX, Word16 *offset, Word16 *FEC_hi);
 
+/* calculate the quality and output to quality file*/
+void EVS_RX_getQuality(EVS_RX_HANDLE hEvsRX, const char* input_file, int multi_apa);
 /*! Returns 1 if the jitter buffer is empty, otherwise 0. */
 /*  Intended for flushing at the end of the main loop but not during normal operation! */
 Word8

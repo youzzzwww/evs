@@ -16,9 +16,7 @@
 #include "basop_util.h"
 #include "basop_util_jbm.h"
 
-
-
-struct EVS_RX
+extern struct EVS_RX
 {
     Decoder_State_fx        *st;
     JB4_HANDLE               hJBM;
@@ -30,6 +28,7 @@ struct EVS_RX
     PCMDSP_FIFO_HANDLE       hFifoAfterTimeScaler;
     FILE                    *jbmTraceFile;
 	FILE*                    pcmRecordFile;            //store pcm data before shrink-extend
+	FILE*                    qualityFile;
 };
 
 /* function to check if a frame contains a SID */
@@ -137,7 +136,7 @@ EVS_RX_ERROR EVS_RX_Open(EVS_RX_HANDLE* phEvsRX,
         apa_set_complexity_options( hEvsRX->hTimeScaler, wss, css ) != 0 ||
         apa_set_quality( hEvsRX->hTimeScaler, L_deposit_h(1), 4, 4 ) != 0 ||
         pcmdsp_fifo_create( &hEvsRX->hFifoAfterTimeScaler ) != 0 ||
-        pcmdsp_fifo_init( hEvsRX->hFifoAfterTimeScaler, i_mult2(4, st->output_frame_fx) /* 4 frames */, 1, 2 /* Word16 */ ) != 0 )
+        pcmdsp_fifo_init( hEvsRX->hFifoAfterTimeScaler, i_mult2(8, st->output_frame_fx) /* 4 frames */, 1, 2 /* Word16 */ ) != 0 )
     {
         return EVS_RX_TIMESCALER_ERROR;
     }
@@ -167,7 +166,8 @@ EVS_RX_SetJbmTraceFileName(EVS_RX_HANDLE hEvsRX,
 /* Sets the name of the PCM trace file to store origin decoded data. */
 EVS_RX_ERROR
 EVS_RX_SetPcmTraceFileName(EVS_RX_HANDLE hEvsRX,
-                           const char *pcm_filename)
+                           const char *pcm_filename,
+						   const char *quality_filename)
 {
     /* JBM trace file writing is only done for EVS testing and is not instrumented. */
     if( hEvsRX->pcmRecordFile )
@@ -176,6 +176,17 @@ EVS_RX_SetPcmTraceFileName(EVS_RX_HANDLE hEvsRX,
     {
         hEvsRX->pcmRecordFile = fopen( pcm_filename, "wb+" );
         if( !hEvsRX->pcmRecordFile )
+        {
+            return EVS_RX_WRONG_PARAMS;
+        }
+    }
+
+	if( hEvsRX->qualityFile )
+    fclose( hEvsRX->qualityFile );
+    if( quality_filename != NULL )
+    {
+        hEvsRX->qualityFile = fopen( quality_filename, "a+" );
+        if( !hEvsRX->qualityFile )
         {
             return EVS_RX_WRONG_PARAMS;
         }
@@ -299,6 +310,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 	short i=0;
 	int previous_frame_length=0;
 	short* current_pcmBuf=NULL;
+	short average_scaled = 0;
 
     assert(hEvsRX->st->output_frame_fx <= pcmBufSize);
     assert(hEvsRX->st->output_frame_fx <= APA_BUF);
@@ -318,6 +330,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
         dataUnit = NULL;
         move16();
 
+		average_scaled = 0;
 		current_pcmBuf = pcmBuf;
 		for(i=0; i<frames_per_apa; i++)
 		{
@@ -339,6 +352,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 				timeScalingDone = 1;
 				move16();
 			}
+			average_scaled += scale;
 
 			/* copy bitstream into decoder state */
 			IF(dataUnit)
@@ -437,6 +451,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 			//fwrite(current_pcmBuf,previous_frame_length,2,hEvsRX->pcmRecordFile);
 		}
 
+		scale = average_scaled/frames_per_apa;
         /* limit scale to range supported by time scaler */
         if(sub(scale, APA_MIN_SCALE) < 0)
             scale = APA_MIN_SCALE;
@@ -534,6 +549,15 @@ EVS_RX_IsEmpty(EVS_RX_HANDLE hEvsRX )
     return isEmpty;
 }
 
+void EVS_RX_getQuality(EVS_RX_HANDLE hEvsRX,const char* input_file,int multi_apa)
+{
+	fprintf(hEvsRX->qualityFile, "%s, %d, %f, %d \n",
+		input_file,
+		multi_apa,
+		apa_get_averageQuality(hEvsRX->hTimeScaler),
+		apa_get_scaledCount(hEvsRX->hTimeScaler)
+		);
+}
 /* Closes the receiver instance. */
 EVS_RX_ERROR
 EVS_RX_Close(EVS_RX_HANDLE* phRX )
@@ -573,6 +597,8 @@ EVS_RX_Close(EVS_RX_HANDLE* phRX )
         fclose( (*phRX)->jbmTraceFile );
 	if( (*phRX)->pcmRecordFile )
         fclose( (*phRX)->pcmRecordFile );
+	if( (*phRX)->qualityFile )
+		fclose( (*phRX)->qualityFile );
     free( *phRX );
     *phRX = NULL;
     move16();

@@ -3,6 +3,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LocalDebuggerEnvironment>$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>48000 48 ..\es03.wav ..\es03_record.192</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>16400 16 ..\wavfiles\es03.wav ..\es03_record.192</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>
