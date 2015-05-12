@@ -79,6 +79,7 @@ struct apa_state_t
     Word16 qualityrise;          /* quality rising for adaptive quality thresholds */
 	int    totalQuality;         /* total quality of all the scaled frames */
 	short  total_scaled_count;
+	int total_scaled_samples;
 
     Word16 last_pitch;           /* last pitch/sync position */
     Word16 bad_frame_count;      /* # frames before quality threshold is lowered */
@@ -218,6 +219,8 @@ void apa_reset (apa_state_t * ps)
     move16();
     ps->total_scaled_count = 0;
     move16();
+	ps->total_scaled_samples = 0;
+	move16();
 }
 
 /* Sets the audio configuration. */
@@ -270,7 +273,7 @@ Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels, short fr
     /* before basop port was originally : ps->l_seg = ( ps->rate * ps->num_channels ) / 100 );
      * but whilst frm_size is still hard-coded the seg_size can be taken from half frm_size */
     //ps->l_seg = shr( ps->l_frm, 1 );
-	ps->l_seg = ( ps->rate * ps->num_channels ) / 100 ;
+	ps->l_seg = (( ps->rate * ps->num_channels ) / 100 )*frames_per_sample;
 
     /* init Hann window */
     /* Note: l_win < APA_BUF is required, which is assured */
@@ -304,7 +307,28 @@ Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels, short fr
     /* sample rates 8k, 16k & 32k use a Hann window of length of 640,
      * where 8k and 16k subsample */
     if(L_sub(ps->rate, 16000) == 0)
-        ps->win_incrementor = 2;
+	{
+		if(frames_per_sample==1){
+			ps->win_incrementor = 2;
+		}
+		else if(frames_per_sample==2){
+			ps->win_incrementor = 1;
+		}
+		else if(frames_per_sample==3){
+			ps->win = pcmdsp_window_hann_960;
+			move16();
+			ps->l_halfwin = 480;
+			move16();
+			ps->win_incrementor = 1;
+		}
+		else if(frames_per_sample==4){
+			ps->win = pcmdsp_window_hann_1280;
+			move16();
+			ps->l_halfwin = 640;
+			move16();
+			ps->win_incrementor = 1;
+		}
+	}
     move16();
     if(L_sub(ps->rate, 8000) == 0)
         ps->win_incrementor = 4;
@@ -418,6 +442,10 @@ double apa_get_averageQuality(apa_state_t * ps)
 int apa_get_scaledCount(apa_state_t * ps)
 {
 	return ps->total_scaled_count;
+}
+int apa_get_scaledSamples(apa_state_t * ps)
+{
+	return ps->total_scaled_samples;
 }
 /*
 ********************************************************************************
@@ -711,6 +739,7 @@ Word8 apa_exec (apa_state_t * ps, /* i/o: state struct */
         ps->diffSinceSetScale    = L_shr(ps->diffSinceSetScale, statsResetShift);
         ps->nFramesSinceSetScale = shr(ps->nFramesSinceSetScale, statsResetShift);
     }
+	ps->total_scaled_samples += abs(ps->diffSinceSetScale);
     return 0;
 }
 

@@ -555,7 +555,7 @@ void EVS_RX_getQuality(EVS_RX_HANDLE hEvsRX,const char* input_file,int multi_apa
 		input_file,
 		multi_apa,
 		apa_get_averageQuality(hEvsRX->hTimeScaler),
-		apa_get_scaledCount(hEvsRX->hTimeScaler)
+		apa_get_scaledSamples(hEvsRX->hTimeScaler)/hEvsRX->samplesPerMs
 		);
 }
 /* Closes the receiver instance. */

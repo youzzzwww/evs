@@ -68,6 +68,7 @@ Word8 apa_set_rate(
 
 double apa_get_averageQuality(apa_state_t * ps);
 int apa_get_scaledCount(apa_state_t * ps);
+int apa_get_scaledSamples(apa_state_t * ps);
 /*! Set scaling.
  *  The scale is given in % and will be valid until changed again.
  *  Must be in range [APA_MIN_SCALE,APA_MAX_SCALE].

@@ -21,6 +21,7 @@
  */
 extern Word16 pcmdsp_window_hann_960[960];
 extern Word16 pcmdsp_window_hann_640[640];
+extern Word16 pcmdsp_window_hann_1280[1280];
 
 /** Overlap/Add of two signal with a given window. */
 /** @param[in] fadeOut signal to fade out

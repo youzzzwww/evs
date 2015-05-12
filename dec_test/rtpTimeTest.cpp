@@ -17,7 +17,7 @@ TEST(TimeTest, normalDistributionTest)
 		for(int j=0;j<100;j++)
 		{
 			//data = Time::GaussRand();
-			data = i*50 + 50*Time::NormalDistrWithScale(1);
+			data = i*20 + 20*Time::NormalDistrWithScale(1);
 			fprintf(GaussDataFile,"%f\n",data);
 		}
 	}
