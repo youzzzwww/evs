@@ -69,6 +69,8 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
                   Word16 *pcmBuf,
                   Word16 pcmBufSize,
                   Word32 systemTimestamp_ms,
+				  FILE* f_mode,
+				  const char* input_file,
 				  short frames_per_apa) ;
 
 Word16

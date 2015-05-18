@@ -33,7 +33,7 @@ struct apa_state_t
     /* number of right shifts to be applied to the signal before correlation functions */
     Word16 signalScaleForCorrelation;
     /* scaled input samples for similarity estimation */
-    Word16 frmInScaled[2*48000/50];
+    Word16 frmInScaled[4*48000/50];
     /* output buffer */
     Word16 buf_out[APA_BUF];
     Word16 l_buf_out;
@@ -77,9 +77,11 @@ struct apa_state_t
     Word32 targetQualityQ16;     /* Q15.16 */
     Word16 qualityred;           /* quality reduction threshold */
     Word16 qualityrise;          /* quality rising for adaptive quality thresholds */
+	/* add by youyou */
 	int    totalQuality;         /* total quality of all the scaled frames */
 	short  total_scaled_count;
 	int total_scaled_samples;
+	short frames_per_scaled;
 
     Word16 last_pitch;           /* last pitch/sync position */
     Word16 bad_frame_count;      /* # frames before quality threshold is lowered */
@@ -221,6 +223,8 @@ void apa_reset (apa_state_t * ps)
     move16();
 	ps->total_scaled_samples = 0;
 	move16();
+	ps->frames_per_scaled = 0;
+	move16();
 }
 
 /* Sets the audio configuration. */
@@ -238,8 +242,9 @@ Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels, short fr
     assert( rate == 8000 || rate == 16000 || rate == 24000 || rate == 32000 || rate == 48000 );
 
     /* reset state struct */
-    apa_reset( ps );
+    //apa_reset( ps );
 
+	ps->frames_per_scaled = frames_per_sample;
     /* copy rate to state struct */
     ps->rate = rate;
     move32();
@@ -346,11 +351,15 @@ Word8 apa_set_rate( apa_state_t * ps, Word32 rate, Word16 num_channels, short fr
     /* must cover one pitch, set to 200 samples at 16 kHz */
     /* (the resulting maximum pitch is then p_min+l_search = 240 samples at 16 kHz) */
     /* the following is equivalent to: ps->l_search = (ps->rate * ps->num_channels) / 80; */
-    //ps->l_search = BASOP_Util_Divide3216_Scale( L_mult0_3216( ps->rate, ps->num_channels ), 80, &divScaleFac );
-    //ps->l_search = shl( ps->l_search, add( divScaleFac,1 ) );
 
-	ps->l_search = BASOP_Util_Divide3216_Scale( L_mult0_3216( ps->rate, ps->num_channels ), 80/frames_per_sample, &divScaleFac );
-    ps->l_search = shl( ps->l_search, add( divScaleFac,1 ) );
+	if(frames_per_sample ==1)
+	{
+		ps->l_search = BASOP_Util_Divide3216_Scale( L_mult0_3216( ps->rate, ps->num_channels ), 80, &divScaleFac );
+		ps->l_search = shl( ps->l_search, add( divScaleFac,1 ) );
+	}
+	else{
+		ps->l_search = ((ps->rate * ps->num_channels)/50 - 50) * frames_per_sample;
+	}
 
     ps->signalScaleForCorrelation = getSignalScaleForCorrelation(ps->rate);
 
@@ -739,7 +748,6 @@ Word8 apa_exec (apa_state_t * ps, /* i/o: state struct */
         ps->diffSinceSetScale    = L_shr(ps->diffSinceSetScale, statsResetShift);
         ps->nFramesSinceSetScale = shr(ps->nFramesSinceSetScale, statsResetShift);
     }
-	ps->total_scaled_samples += abs(ps->diffSinceSetScale);
     return 0;
 }
 
@@ -822,10 +830,14 @@ static void get_scaling_quality(const apa_state_t * ps,
             }
 
             /* combine correlation results: Q15.16 */
-            *qualityQ16 = L_shr(L_mac0(L_mult0(half_pitch_cn, three_halves_pitch_cn),
-                                       pitch_cn, double_pitch_cn), 14);
+            //*qualityQ16 = L_shr(L_mac0(L_mult0(half_pitch_cn, three_halves_pitch_cn),
+            //                           pitch_cn, double_pitch_cn), 14);
+            //BASOP_SATURATE_WARNING_OFF
+            //energy = L_add(L_add(L_add(pitch_energy, half_pitch_energy), three_halves_pitch_energy), double_pitch_energy);
+            //BASOP_SATURATE_WARNING_ON
+			*qualityQ16 = L_shr( pitch_cn, 14);
             BASOP_SATURATE_WARNING_OFF
-            energy = L_add(L_add(L_add(pitch_energy, half_pitch_energy), three_halves_pitch_energy), double_pitch_energy);
+            energy = pitch_energy;
             BASOP_SATURATE_WARNING_ON
         }
         ELSE
@@ -1144,6 +1156,7 @@ static Word16 shrink_frm (apa_state_t * ps,
     Word16 over;
     Word16 energyQ8;
     Word32 qualityQ16;
+	int quality_change;
 
     findSynchResult = 0;
     move16();
@@ -1205,10 +1218,12 @@ static Word16 shrink_frm (apa_state_t * ps,
     move16();
 
     /* test whether frame has sufficient quality */
+	quality_change = ps->frames_per_scaled==1?
+		ps->frames_per_scaled: ps->frames_per_scaled/2;
     /* 6554=0.1 in Q15.16; 13107=0.2 in Q15.16 */
     IF(L_sub(qualityQ16, L_add(L_sub(ps->targetQualityQ16,
-                                     L_mult0(ps->bad_frame_count, 6554)),
-                               L_mult0(ps->good_frame_count, 13107))) < 0)
+                        L_mult0(ps->bad_frame_count*ps->frames_per_scaled, 6554)),
+					L_mult0(ps->good_frame_count*quality_change, 13107))) < 0)
     {
         /* not sufficient */
         over = 0;
@@ -1236,6 +1251,7 @@ static Word16 shrink_frm (apa_state_t * ps,
         }
 		ps->totalQuality += qualityQ16;
 		ps->total_scaled_count++;
+		ps->total_scaled_samples += abs(xtract);
     }
 
     /* Calculate output data */                                                 test();
@@ -1269,6 +1285,7 @@ static Word16 shrink_frm (apa_state_t * ps,
 
     /* set output length */
     *l_frm_out = add( l_seg, l_rem );
+	ps->total_scaled_samples += abs(l_frm - *l_frm_out);
     return 0;
 }
 
@@ -1309,6 +1326,7 @@ static Word16 extend_frm (apa_state_t * ps,
     Word32 qualityQ16;
     const Word16 *fadeOut, *fadeIn;
     Word16 *frmInScaled, *out;
+	int 	quality_change;
 
     findSynchResult = 0;
     move16();
@@ -1443,10 +1461,12 @@ static Word16 extend_frm (apa_state_t * ps,
             assert( xtract[n] % ps->num_channels == 0 );
 
             /* test for sufficient quality */
+			quality_change = ps->frames_per_scaled==1?
+				ps->frames_per_scaled: ps->frames_per_scaled/2;
             /* 6554=0.1 in Q15.16; 13107=0.2 in Q15.16 */
             IF(L_sub(qualityQ16, L_add(L_sub(ps->targetQualityQ16,
-                                             L_mult0(ps->bad_frame_count, 6554)),
-                                       L_mult0(ps->good_frame_count, 13107))) < 0)
+                                             L_mult0(ps->bad_frame_count*ps->frames_per_scaled, 6554)),
+                                       L_mult0(ps->good_frame_count*quality_change, 13107))) < 0)
             {
                 /* not sufficient */
                 over[n] = 0;
@@ -1528,6 +1548,7 @@ static Word16 extend_frm (apa_state_t * ps,
 
     /* set output length */
     *l_frm_out = add( i_mult2( sub(N,1), l_seg ), l_rem );
+	ps->total_scaled_samples += abs(l_frm - *l_frm_out);
     return 0;
 }
 

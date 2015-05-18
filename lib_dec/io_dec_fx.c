@@ -34,6 +34,7 @@ void io_ini_dec_fx(
     FILE **f_stream,          /* o  : input bitstream file                      */
     FILE **f_synth,           /* o  : output synthesis file                     */
 	FILE **f_jitter,          /* i  : jitter file                                */
+	FILE **f_mode,            /* i  : frame mode file                             */
 	short *multi_apa,         /* i  : define how much frams once process        */
     Word16 *quietMode,             /* o  : limited printouts                         */
     Word16 *noDelayCmp,            /* o  : turn off delay compensation               */
@@ -115,6 +116,20 @@ void io_ini_dec_fx(
 			if(*f_jitter == NULL)
 			{
 				fprintf (stderr, "Error: jitter file cann't open!\n\n");
+				usage_dec();
+			}
+        }
+		/*-----------------------------------------------------------------*
+        * mode setting file
+        *-----------------------------------------------------------------*/
+
+        ELSE IF ( strcmp( to_upper(argv[i]), "-MODE_FILE" ) == 0 )
+        {
+            *f_mode = fopen(argv[i+1],"r");
+            i = i + 2;
+			if(*f_mode == NULL)
+			{
+				fprintf (stderr, "Error: mode file cann't open!\n\n");
 				usage_dec();
 			}
         }

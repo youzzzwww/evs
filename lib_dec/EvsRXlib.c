@@ -289,6 +289,23 @@ EVS_RX_FeedFrame(EVS_RX_HANDLE hEvsRX,
     return EVS_RX_NO_ERROR;
 }
 
+int getNumPerScaledFromFile(FILE* fin)
+{
+	int mode=-1,i=0;
+	fscanf(fin, "%d \n", &mode);
+	if(mode == 3)
+	{
+		while(mode>0)
+		{
+			fscanf(fin, "%d \n", &i);
+			mode--;
+		}
+		return 4;
+	}
+	else if(mode ==0 || mode==1 || mode==2)
+		return 1;
+	else return -1;
+}
 /* Retrieves one frame of output PCM data. */
 EVS_RX_ERROR
 EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
@@ -296,7 +313,9 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
                   Word16 *pcmBuf,
                   Word16 pcmBufSize,
                   Word32 systemTimestamp_ms,
-				  short frames_per_apa)
+				  FILE *f_mode,
+				  const char* input_file,
+				  short frames_per_scaled)
 {
     Decoder_State_fx *st;
     Word16 soundCardFrameSize, extBufferedSamples;
@@ -306,11 +325,12 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
     JB4_DATAUNIT_HANDLE dataUnit;
     Word16 tmp;
 	//add by youyou to decode frames_per_apa once time
-	//short frames_per_apa = 2
-	short i=0;
+	//short frames_per_apa = frames_per_scaled;
+	static short frames_per_apa=1;
+	short i=0, mode=0;
 	int previous_frame_length=0;
 	short* current_pcmBuf=NULL;
-	short average_scaled = 0;
+	short average_scaled = 0,max_scaling_sum=0;
 
     assert(hEvsRX->st->output_frame_fx <= pcmBufSize);
     assert(hEvsRX->st->output_frame_fx <= APA_BUF);
@@ -330,7 +350,20 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
         dataUnit = NULL;
         move16();
 
+		if(f_mode)
+		{
+			mode = getNumPerScaledFromFile(f_mode);
+			if(mode == -1)
+			{
+				EVS_RX_getQuality(hEvsRX, input_file, 0);
+				return EVS_RX_DECODER_ERROR;
+			}
+			if( mode != frames_per_apa)
+				apa_set_rate( hEvsRX->hTimeScaler, hEvsRX->samplesPerMs*1000, 1, mode);
+			frames_per_apa = mode;
+		}
 		average_scaled = 0;
+		max_scaling_sum = 0;
 		current_pcmBuf = pcmBuf;
 		for(i=0; i<frames_per_apa; i++)
 		{
@@ -341,6 +374,9 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 				return EVS_RX_JBM_ERROR;
 			}
 			maxScaling = i_mult2(maxScaling, hEvsRX->samplesPerMs);
+			/* add by youyou to summarize scaled parameters */
+			average_scaled += scale;
+			max_scaling_sum += maxScaling;
 			/* avoid time scaling multiple times in one sound card slot */
 			IF(sub(scale, 100) != 0)
 			{
@@ -351,8 +387,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 				}
 				timeScalingDone = 1;
 				move16();
-			}
-			average_scaled += scale;
+			}		
 
 			/* copy bitstream into decoder state */
 			IF(dataUnit)
@@ -452,6 +487,7 @@ EVS_RX_GetSamples(EVS_RX_HANDLE hEvsRX,
 		}
 
 		scale = average_scaled/frames_per_apa;
+		maxScaling = max_scaling_sum;
         /* limit scale to range supported by time scaler */
         if(sub(scale, APA_MIN_SCALE) < 0)
             scale = APA_MIN_SCALE;

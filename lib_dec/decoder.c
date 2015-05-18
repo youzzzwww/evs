@@ -30,7 +30,9 @@ int main(int argc, char *argv[])
     FILE              *f_stream;                          /* input bitstream file        */
     FILE              *f_synth;                           /* output synthesis file       */
 	FILE              *f_jitter;                          /* add by youyou to produce extra jitter */
-	short             multi_apa=1;                           /* add by youyou to set multiple frames once */
+	FILE              *f_mode=NULL;                             /* frame mode */
+	short             multi_apa=1;                           /* add by youyou to set multiple frames once 
+															 will be overwrite by f_mode file*/
 	int               sampling_rate;                      /* output sampling rate */
     UWord16           bit_stream[MAX_BITS_PER_FRAME+16];
     Word16            output[3*L_FRAME48k];               /* buffer for output synthesis */
@@ -63,7 +65,7 @@ int main(int argc, char *argv[])
 
     st_fx->bit_stream_fx = bit_stream;
 
-    io_ini_dec_fx( argc, argv, &f_stream, &f_synth, &f_jitter,
+    io_ini_dec_fx( argc, argv, &f_stream, &f_synth, &f_jitter, &f_mode,
                    &multi_apa, &quietMode,
                    &noDelayCmp,
                    st_fx,
@@ -95,7 +97,7 @@ int main(int argc, char *argv[])
 		////fclose(f_stream);
 		//rewind(f_stream);
 
-        IF( decodeVoip(st_fx, f_stream, f_synth, f_jitter, multi_apa, jbmTraceFileName, jbmFECoffsetFileName, inputFileName  ) != 0 )
+        IF( decodeVoip(st_fx, f_stream, f_synth, f_jitter, f_mode, multi_apa, jbmTraceFileName, jbmFECoffsetFileName, inputFileName  ) != 0 )
         {
             return -1;
         }
@@ -247,7 +249,10 @@ int main(int argc, char *argv[])
     free( st_fx );
     fclose( f_synth );
     fclose( f_stream );
-	fclose( f_jitter );
+	if( f_jitter)
+		fclose( f_jitter );
+	if( f_mode)
+		fclose( f_mode );
 
 
     return 0;

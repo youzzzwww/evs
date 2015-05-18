@@ -33,6 +33,7 @@ Word16 decodeVoip(
     FILE *f_stream,
     FILE *f_synth,
 	FILE *f_jitter,
+	FILE *f_mode,
 	short multi_apa,
     const char *jbmTraceFileName
     ,const char *jbmFECoffsetFileName /* : Output file  for Optimum FEC offset        */
@@ -163,7 +164,7 @@ Word16 decodeVoip(
             break;
 
         /* decode and get samples */
-        rxerr = EVS_RX_GetSamples(hRX, &nSamples, pcmBuf, pcmBufSize, systemTime_ms, frames_per_apa);
+        rxerr = EVS_RX_GetSamples(hRX, &nSamples, pcmBuf, pcmBufSize, systemTime_ms, f_mode, inputFileName, frames_per_apa);
 
         EVS_RX_Get_FEC_offset(hRX, &optimum_offset, &FEC_hi);
 
